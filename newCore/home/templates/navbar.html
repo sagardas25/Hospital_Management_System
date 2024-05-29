@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>navbar</title>
+
+    <style>
+
+         *{
+
+          margin: 0px;
+          padding: 0px;
+         
+         } 
+
+
+        .nav{
+
+            display: flex;
+            flex-direction: row;
+            background-color: blue;
+            justify-content: space-between;
+            align-items: center;
+            height: 9vh;
+          
+
+         }
+
+        .panels{
+
+            display: flex;
+            flex-direction: row;
+            /* background-color: brown; */
+            align-items: center;
+            justify-content: space-around;
+            width: 25%;
+            height: 100%;
+            margin-right: 5%;
+
+        }
+
+        .nav>.logo {
+
+            margin-left: 5%;
+            /* background-color: brown; */
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: whitesmoke;
+            font-weight: 2000;
+        }
+
+        .nav>.logo p{
+
+            /* background-color: bisque; */
+            font-weight: 900;
+        }
+
+        a{
+
+            text-decoration: none;
+            color: whitesmoke;
+
+        }
+
+
+
+
+        .panels > a{
+            margin: none;
+            border-bottom: 2px solid transparent;
+            transition: o.2s ease-in-out;
+            font-weight: 900;
+
+
+        }
+
+       .panels > a:hover{
+
+            border-bottom: 2px solid ;
+            transition: o.2s ease-in-out;
+
+
+        }
+
+
+
+
+     </style>
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+    <navbar class="nav" >
+
+        <div class="logo" >
+            <p> <a href="/ " >LOGO HERE</a></p>
+        </div>
+
+
+        <div class="panels">
+            
+            <a href="{% url 'button1' %}">Login</a>
+            <a href="{% url 'signup' %}">sign up</a>
+
+        </div>
+
+
+    </navbar>
+
+
+
+   
+
+    
+</body>
+</html>
