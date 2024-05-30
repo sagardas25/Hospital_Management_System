@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    <form action="login/" method="POST">
+<form   method="POST">       <!--    action="login/"  ->  had to remove this otherwise it was getting redirected to "login/login/" -->
         {% csrf_token %}
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>

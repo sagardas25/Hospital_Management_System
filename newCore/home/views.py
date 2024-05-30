@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import login,logout , authenticate
 from django.contrib import messages
 from .forms import CustomUserCreationForm
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -31,7 +32,8 @@ def login_user(request):
 # sign up view
 def signup(request):
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('home'))                           
+        return HttpResponseRedirect(reverse('home'))   
+                            
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -46,11 +48,22 @@ def signup(request):
                 return redirect('signup')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form}) 
+
 
 
 # logout view
-
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+
+# @login_required   
+# def doctor_dash(request):
+#       return render(request,'doctor-dashboard.html')
+     
+
+# @login_required
+# def patient_dash(request):
+#       return render(request,'patient-dashboard.html')
