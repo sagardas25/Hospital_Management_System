@@ -5,15 +5,18 @@ from django.contrib.auth import login,logout , authenticate
 from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
 
 
 
 # home page
+@never_cache
 def home(request):
     return render(request, 'home.html')
 
 
 # login view
+@never_cache
 def login_user(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('home'))                           
@@ -30,6 +33,7 @@ def login_user(request):
 
 
 # sign up view
+@never_cache
 def signup(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('home'))   
@@ -63,7 +67,7 @@ def logout_user(request):
 # def doctor_dash(request):
 #       return render(request,'doctor-dashboard.html')
      
-
+     
 # @login_required
 # def patient_dash(request):
 #       return render(request,'patient-dashboard.html')

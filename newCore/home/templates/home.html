@@ -43,11 +43,24 @@
 
     {% include "navbar.html" %}
 
+
+    {% if user.is_authenticated %}
+
     <section class="main">
 
-    <h1>This is home pageeee</h1>
+    <h1>You are logged in Mr. {{user.username}}</h1>
 
     </section>
+
+    {% else %}
+
+    <section class="main">
+
+        <h1>This is home page</h1>
+    
+        </section>
+
+    {% endif %}
 
 
 

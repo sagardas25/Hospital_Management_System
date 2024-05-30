@@ -109,14 +109,27 @@
         </div>
 
 
+        {% if user.is_authenticated %}
+
         <div class="panels">
             
-            <a href="{% url 'button1' %}">Login</a>
-            <a href="{% url 'signup' %}">sign up</a>
             <a href="{% url 'button2' %}">Logout</a>
 
         </div>
 
+        {% else %}
+
+
+
+        <div class="panels">
+            
+            <a href="{% url 'button1' %}">Login</a>
+            <a href="{% url 'signup' %}">sign up</a>
+           
+
+        </div>
+
+        {% endif %}
 
     </navbar>
 

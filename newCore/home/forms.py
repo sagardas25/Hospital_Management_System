@@ -18,4 +18,4 @@ class CustomUserCreationForm(UserCreationForm):
         
         super(CustomUserCreationForm, self)._init_(*args, **kwargs)
         for fieldname in ['username', 'password1', 'password2']:
-            self.fields[fieldname].help_text = None
+            self.fields[fieldname].help_text = None  
