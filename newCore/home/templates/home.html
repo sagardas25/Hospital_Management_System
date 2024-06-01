@@ -11,7 +11,9 @@
         body {
 
         margin: 0px;
-        padding: 0px; }
+        padding: 0px;
+        user-select: none;
+    }
 
         .bar{
             height: auto;
@@ -20,7 +22,7 @@
         .main{
 
             /* background-color: aqua; */
-            border: 1px solid black;
+            /* border: 1px solid black; */
             position: relative;
            
         }
@@ -50,13 +52,12 @@
             justify-content: center;
             align-items: center;
             position: relative;
-            /* background-color: aquamarine;  */
+
 
         }
 
         .text{
 
-            background-color: antiquewhite;
             width: auto;
             height: 50%;
             display: flex;
@@ -72,14 +73,50 @@
         }
 
         .text > h1{
-            font-size: 62px; 
-            margin-bottom: 1%;
+            font-size: 4vw; 
+            margin-bottom: 1.5%;
 
         }
 
         .text p {
-            font-size: 25px;
-            font-weight: 400;
+            font-size: 2vw;
+            font-weight: 600;
+        }
+
+
+        .login_btn{
+
+            width: 12%;
+            height: 12%;
+            border-radius: 9%;
+            border: 1px solid #248d40;
+            display: flex;
+            /* background-color: #248d40; */
+            background-color: #419b5b;
+            justify-content: center;
+            align-items: center;
+            margin-top: 3%;
+
+        }
+
+
+        .login_btn > a{
+
+            color: white;
+            font-weight: 550;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: larger;
+
+        }
+
+        span{
+
+            /* color: #419b5b; */
+            color: #248d40;
         }
 
 
@@ -112,8 +149,7 @@
 
                <h1><span>Welcome</span> Mr. {{user.role}} </h1>
                <p>You are logged in !</p>
-               <!-- <p>Durgapur</p> -->
-               
+                             
                </div>
 
 
@@ -139,7 +175,7 @@
                  <div class="txt_container">
                     <div class="text">
 
-                    <h1><span>Hospital</span> management system</h1>
+                    <h1><span>Hospital</span> Management System</h1>
                     <p>Your Health, Our Priority</p>
                     <p>Durgapur</p>
                     

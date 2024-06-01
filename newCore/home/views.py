@@ -84,5 +84,5 @@ def logout_user(request):
 @login_required
 def dashboard(request):
 
-    user = request.user    # this will get the current logged in user
+    user = request.user    
     return render(request,'dashboard.html' , {'user' : user})
