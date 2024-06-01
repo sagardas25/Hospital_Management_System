@@ -3,33 +3,41 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import login,logout , authenticate
 from django.contrib import messages
-from .forms import CustomUserCreationForm
+from django.contrib.auth.models import Group
+from .forms import CustomUserCreationForm 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from . import forms
 
 
 
-# home page
+#home page
 @never_cache
 def home(request):
     return render(request, 'home.html')
 
 
-# login view
+#login view
 @never_cache
 def login_user(request):
+    
     if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('home'))                           
+        return HttpResponseRedirect(reverse('home'))  
+                             
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
+
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
             return redirect('home')
         else:
             messages.error(request, "Invalid information. Please try again")
+
     return render(request, 'login.html', {})
+
 
 
 # sign up view
@@ -67,7 +75,14 @@ def logout_user(request):
 # def doctor_dash(request):
 #       return render(request,'doctor-dashboard.html')
      
-     
+
 # @login_required
 # def patient_dash(request):
 #       return render(request,'patient-dashboard.html')
+
+
+@login_required
+def dashboard(request):
+
+    user = request.user    # this will get the current logged in user
+    return render(request,'dashboard.html' , {'user' : user})

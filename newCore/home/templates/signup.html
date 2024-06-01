@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
     
 <head>
@@ -96,6 +97,42 @@
         }
 
 
+        .file-input {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.file-input input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-label {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.file-label:hover {
+    background-color: #0056b3;
+}
+
+#errors{
+
+    color: red;
+}
+
+
+
 
 
     </style>
@@ -112,45 +149,61 @@
 
 
     <div class="container"> 
-        <div class="form">
-            <form action="{% url 'signup' %}" method="POST">
-                {% csrf_token %}
-                {{ form.non_field_errors }}
 
-            <div class="input_container">
-                <div class="forms">
-                    {{ form.username.label_tag }} <br>
-                    {{ form.username }}
-                    {{ form.username.errors }}
-                </div>
-                <div class="forms">
-                    {{ form.email.label_tag }}<br>
-                    {{ form.email }}
-                    {{ form.email.errors }}
-                </div>
-                <div class="forms">
-                    {{ form.password1.label_tag }} <br>
-                    {{ form.password1 }}
-                    {{ form.password1.errors }}
-                </div>
-                <div class="forms">
-                    {{ form.password2.label_tag }} <br>
-                    {{ form.password2 }}
-                    {{ form.password2.errors }}
-                </div>
-                <div class="forms">
-                    {{ form.role.label_tag }}<br>
-                    <select name="role" id="id_role">
-                        {% for value, label in form.role.field.choices %}
-                            <option value="{{ value }}">{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                    {{ form.role.errors }}
-                </div>
-            </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <br>
-            </form>
+        <div class="form">
+
+                <form action="{% url 'signup' %}" method="POST">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+
+
+                    <div class="input_container">
+
+                            <div class="forms">
+                                {{ form.username.label_tag }} <br>
+                                {{ form.username }}
+                                {{ form.username.errors }}
+                            </div>
+
+                            <div class="forms">
+                                {{ form.email.label_tag }}<br>
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
+
+                            <div class="forms">
+                                {{ form.password1.label_tag }} <br>
+                                {{ form.password1 }}
+                                {{ form.password1.errors }}
+                            </div>
+
+                            <div class="forms">
+                                {{ form.password2.label_tag }} <br>
+                                {{ form.password2 }}
+                                {{ form.password2.errors }}
+                            </div>
+
+                            <div class="forms">
+
+                                {{ form.role.label_tag }}<br>
+
+                                <select name="role" id="id_role">
+
+                                    {% for value, label in form.role.field.choices %}
+                                        <option value="{{ value }}">{{ label }}</option>
+                                    {% endfor %}
+
+                                </select>
+
+                                {{ form.role.errors }}
+                            </div>
+
+
+                    </div>
+
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                           
+                </form>
         </div>
     </div>
 </div>

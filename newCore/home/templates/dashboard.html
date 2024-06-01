@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+
+
+</head>
+
+<body>
+
+    {% if user.role == 'doctor' %}
+
+        <h1> Hello  doctor !! </h1>
+
+
+    {% elif user.role == 'patient' %}
+
+        <h1> hello mr. patient !!</h1>
+
+    {% else %}
+
+        <h1>hello user !! </h1>
+
+    {% endif %}
+
+
+
+</body>
+</html>

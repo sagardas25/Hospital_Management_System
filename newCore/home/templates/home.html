@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,27 +8,81 @@
 
     <style>
 
+        body {
+
+        margin: 0px;
+        padding: 0px; }
+
+        .bar{
+            height: auto;
+        }
+
         .main{
 
-            /* background-image: url(/static/images/hosp.avif); */
-            height: 100vh;
+            /* background-color: aqua; */
+            border: 1px solid black;
             position: relative;
-            background-position: center;
-            background-size: cover; 
+           
+        }
+
+
+        .image{
+
+            background-image: url('/static/homeBg.png');
+            height: 88.5vh;
+            position: relative;
+            /* background-position: 90% 150%; */
+            background-position: 90% 90%;
+            background-size: 40% 80%; 
+            /* background-size: 50% 96%;  */
             background-repeat: no-repeat;
-            background-attachment:scroll ;
+            background-attachment: fixed;
+    
+            
+        }
+
+        .txt_container{
+/* 
+            background-color: beige; */
+            height: 80vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
+            position: relative;
+            /* background-color: aquamarine;  */
 
         }
 
-        h1{
+        .text{
 
-            background-color: blueviolet;
-            font-size: 50px;
+            background-color: antiquewhite;
+            width: auto;
+            height: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            /* font-size: 38px; */
+            position: absolute;
+            top: 10%;
+            left: 10%;
+           
 
         }
+
+        .text > h1{
+            font-size: 62px; 
+            margin-bottom: 1%;
+
+        }
+
+        .text p {
+            font-size: 25px;
+            font-weight: 400;
+        }
+
+
 
 
 
@@ -41,27 +96,71 @@
 </head>
 <body>
 
+   <div class="bar">
     {% include "navbar.html" %}
+    </div> 
 
 
     {% if user.is_authenticated %}
 
     <section class="main">
 
-    <h1>You are logged in Mr. {{user.username}}</h1>
+        <div class="image">
 
+            <div class="txt_container">
+               <div class="text">
+
+               <h1><span>Welcome</span> Mr. {{user.role}} </h1>
+               <p>You are logged in !</p>
+               <!-- <p>Durgapur</p> -->
+               
+               </div>
+
+
+            </div>
+       </div>
+
+
+
+    <!-- <h1>You are logged in Mr. {{user.username}}</h1> -->
+
+  
     </section>
 
     {% else %}
 
-    <section class="main">
+        <section class="main">
 
-        <h1>This is home page</h1>
-    
+
+
+
+            <div class="image">
+
+                 <div class="txt_container">
+                    <div class="text">
+
+                    <h1><span>Hospital</span> management system</h1>
+                    <p>Your Health, Our Priority</p>
+                    <p>Durgapur</p>
+                    
+                    <div class="login_btn">
+                        <a href="{% url 'button1' %}">Login</a>
+                    </div>
+
+                    </div>
+
+
+
+                 </div>
+            </div>
+
+
+
+
+        
         </section>
 
     {% endif %}
-
 
 
 </body>
