@@ -4,19 +4,285 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
+
+
+    <style>
+
+            body{
+                user-select: none;
+            }
+
+            .main{
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 99vw;
+                height: 97.5vh;
+                gap: 4%;
+            }
+
+            .primary_box{
+
+                /* background-color: aqua; */
+                height: 88vh;
+                width: 55vw;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                }
+
+
+            .secondary_box{
+
+                height: 88vh;
+                width: 35vw;
+                background-color: rgba(222,247,229,1);
+                background-image: url('/static/8605333-removebg.png');
+                background-size: 80% 75%;
+                background-position: center;
+                background-repeat: no-repeat;
+                border: 2px solid grey;
+                border-radius: 3%;
+                display: flex;
+                flex-direction: column;
+
+                }
+
+
+            .container{
+
+                /* background-color: yellow; */
+                height: 100%;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                }
+
+
+            form{
+
+                /* background-color: blueviolet; */
+                width: 25vw;
+                padding-bottom: 1%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+        
+              }
+
+             .forms{
+
+                width: 24vw;
+                margin-top: 5%;
+                height: 9vh;
+                /* background-color: palevioletred; */
+            }
+
+
+            #username , #password {
+                  outline: none;
+                  width: 98%;
+                  padding: 1%;
+                  height: 30%;
+                  border: none;
+                  font-size: 15px;
+                  background: transparent;
+
+
+                    }
+
+
+            .btn-primary{
+
+                  margin-top: 5%;
+
+                }
+
+            .input{
+                  padding: 1.5%;
+                  background-color: whitesmoke;
+                  margin-top: 1%;
+                  border-radius: 6px;
+                  border: 1px solid black;
+            }
+
+            label{
+
+                  font-size: larger;
+                  font-weight: 500;
+
+                }
+
+            #btn_log{
+
+                  width: 98%;
+                  height: 5vh;
+                  border-radius: 6px;
+                  border: 0.5px solid black;
+                  /* background-color:#248d40 ; */
+                  background-color: #419b5b;
+                  color: aliceblue;
+                  font-size: 2.5vh;
+                  font-weight: 600;
+                  margin-top: 5%;
+
+                }
+
+
+            .txt{
+
+                  margin-top: 3%;
+                  font-size: 120%;
+                  font-weight: 550;
+                  padding: 0%;
+
+                }
+
+            .txt a{
+
+                  text-decoration: none;
+                  color: #248d40;
+
+            }
+
+            img{
+
+                  width: 7vw;
+                  height:10vh ;
+
+            }
+
+            .header_text{
+
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+
+            }
+
+            .error{
+
+                color: red;
+            }
+
+        /* .error{
+            list-style-type: none; 
+            color: red;
+            font-size: 14px;
+            position: relative;
+            right: 0px;
+        }
+
+        .error_class{
+            margin-top: 1px;
+            margin-bottom: 10px;
+            display: block;
+            position: relative;
+            bottom: 18%;
+        } */
+
+
+
+    </style>
+
+
 </head>
 <body>
 
-<form   method="POST">       <!--    action="login/"  ->  had to remove this otherwise it was getting redirected to "login/login/" -->
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <button type="submit">Login</button>
-    </form>
-    
+
+    <div class="main">
+
+          <div class="primary_box">
+
+                <div class="container">
+
+
+                        <div class="header_text">
+                                                    
+                                <img src="/static/logos/logoRemovedBg.png" alt=""> <h1>Login</h1>
+
+                        </div>
+
+
+                        {% if messages %}
+                        <div class="error_class">
+                            {% for message in messages %}
+                                <p class="error">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                      {% endif %}
+
+
+                        <form  method="POST"> 
+                            
+                            {% csrf_token %}
+                            
+                            <!--    action="login/"  ->  had to remove this otherwise it was getting redirected to "login/login/" -->
+
+                             <div class="forms">
+                               
+                                <label for="username">Username:</label>
+
+                                <div class="input">
+
+                                     <input type="text" id="username" name="username" required>
+                                
+                                </div>
+
+                                <!-- {% if messages %}
+                                <div class="error_class">
+                                    {% for message in messages %}
+                                        <p class="error">{{ message }}</p>
+                                    {% endfor %}
+                                </div>
+                                {% endif %} -->
+
+                             </div>
+
+
+                             <div class="forms">
+
+                                <label for="password">Password:</label>
+
+                                <div class="input">
+
+                                      <input type="password" id="password" name="password" required>
+                                
+                               </div>
+
+                             </div>
+
+
+                                <button type="submit" id ="btn_log">Login</button>
+
+                        </form>
+                        
+
+                            <div class="txt">
+                        
+                                <div class="log_redirect">Don't have an account ? <a href="{% url 'signup' %}" > register </a></div>
+                        
+                            </div>
+                    
+                </div>
+
+
+            </div>
+
+
+         <div class="secondary_box"> </div>
+
+     </div>
+
+
+
+
 </body>
 </html>
