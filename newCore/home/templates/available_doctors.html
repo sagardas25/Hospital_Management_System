@@ -1,0 +1,67 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Available Doctors</title>
+</head>
+<body>
+    <h1>Available Doctors</h1>
+    {% for doctor, time_slots in doctor_slots.items %}
+        <h2>{{ doctor.user.get_full_name }}</h2>
+        <ul>
+            {% for slot in time_slots %}
+                <li>{{ slot.date }}: {{ slot.start_time }} - {{ slot.end_time }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Available Doctors</title>
+    <style>
+        .doctor-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .doctor-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .time-slot {
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Available Doctors</h1>
+    {% for doctor, time_slots in doctor_slots.items %}
+        <div class="doctor-card">
+            <div class="doctor-header">
+                {{ doctor.user.username }}<br>
+
+                Email: {{ doctor.user.email }}<br>
+
+                {% if doctor.user.phone_number %}
+                     Phone: {{ doctor.user.phone_number }}<br>
+                {% endif %}>
+            </div>
+            <div>
+                <h3>Available Time Slots:</h3>
+                <ul>
+                    {% for slot in time_slots %}
+                        <li class="time-slot">{{ slot.date }}: {{ slot.start_time }} - {{ slot.end_time }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+</body>
+</html>
+
+
+

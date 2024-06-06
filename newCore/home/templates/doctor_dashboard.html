@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Dashboard</title>
+    <style>
+        table {
+            width: 100%;
+        }
+        td, th {
+            border: 1px solid black;
+            text-align: center;
+            vertical-align: top;
+        }
+        .date {
+            font-weight: bold;
+        }
+        .slots {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Doctor Dashboard</h1>
+
+    <h2>Add Available Time Slot</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Time Slot</button>
+    </form>
+
+    <h2>Your Time Slots</h2>
+    <ul>
+        {% for slot in time_slots %}
+            <li>
+                {{ slot.date }}: {{ slot.start_time }} - {{ slot.end_time }}
+                <form action="{% url 'delete_time_slot' slot.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- <h2>Calendar</h2>
+    <div>
+        {{ calendar|safe }}
+    </div> -->
+</body>
+</html>

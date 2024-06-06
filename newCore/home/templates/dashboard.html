@@ -13,12 +13,12 @@
 
     {% if user.role == 'doctor' %}
 
-        <h1> Hello  doctor !! </h1>
+        <a href="{% url 'doctor_dashboard' %}">add availibility</a>
 
 
     {% elif user.role == 'patient' %}
 
-        <h1> hello mr. patient !!</h1>
+        <h1> <a href="{% url 'available_doctors' %}"><button>View Available Doctors</button></a> </h1>
 
     {% else %}
 
