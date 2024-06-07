@@ -3,31 +3,55 @@
 <html>
 <head>
     <title>Doctor Dashboard</title>
+
+
     <style>
-        table {
-            width: 100%;
+
+        form{
+
+            background-color: antiquewhite;
+            height: 30vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
         }
-        td, th {
-            border: 1px solid black;
-            text-align: center;
-            vertical-align: top;
+
+        button{
+
+            width: 7vw;
         }
-        .date {
-            font-weight: bold;
+
+        li{
+            margin-top: 1%;
         }
-        .slots {
-            margin-top: 10px;
-        }
+
+
+
     </style>
+  
 </head>
 <body>
-    <h1>Doctor Dashboard</h1>
+    <h1>Doctor Availibility</h1>
 
     <h2>Add Available Time Slot</h2>
+
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+
+
+        <div class="form-group">
+            <label for="id_day">Day</label>
+            {{ form.day }}
+        </div>
+
+        <div class="form-group">
+            <label for="id_time_slots">Time Slots</label>
+            {{ form.time_slots }}
+        </div>
+
+
         <button type="submit">Add Time Slot</button>
+
     </form>
 
     <h2>Your Time Slots</h2>
@@ -40,12 +64,8 @@
                     <button type="submit">Delete</button>
                 </form>
             </li>
-        {% endfor %}
+        {% endfor %} 
     </ul>
 
-    <!-- <h2>Calendar</h2>
-    <div>
-        {{ calendar|safe }}
-    </div> -->
 </body>
 </html>

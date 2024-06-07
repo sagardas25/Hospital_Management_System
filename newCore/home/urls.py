@@ -10,7 +10,8 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('dashboard/',views.dashboard, name= 'dashboard'),
 
-    path('doctor-dashboard/', views.doctor_dashboard, name='doctor_dashboard'),
+    # path('doctor-dashboard/', views.doctor_dashboard, name='doctor_dashboard'),
+    path('add_availability/', views.add_availability, name='add_availability'),
     path('delete-time-slot/<int:slot_id>/', views.delete_time_slot, name='delete_time_slot'),
     path('available-doctors/', views.available_doctors, name='available_doctors'),
     
