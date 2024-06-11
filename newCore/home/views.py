@@ -141,7 +141,16 @@ def add_availability(request):
                 start_time = datetime.strptime(start_time_str, '%H:%M').time()
                 end_time = datetime.strptime(end_time_str, '%H:%M').time()
                 date = get_next_weekday(datetime.now(), day) 
-                TimeSlot.objects.create(doctor=doctor, date=date, start_time=start_time, end_time=end_time)
+
+
+                # Check if the time slot already exists
+                if TimeSlot.objects.filter(doctor=doctor, date=date, start_time=start_time, end_time=end_time).exists():
+                    messages.warning(request, 'time slot already exists.')
+                else:
+                    TimeSlot.objects.create(doctor=doctor, date=date, start_time=start_time, end_time=end_time)
+                    # messages.success(request, f'Time slot {start_time_str} - {end_time_str} on {date.strftime("%Y-%m-%d")} added successfully.')
+
+
 
             return redirect('add_availability')
     else:
@@ -182,5 +191,5 @@ def delete_time_slot(request, slot_id):
         messages.error(request, 'You are not authorized to delete this time slot.')
         return redirect('add_availability')
     time_slot.delete()
-    messages.success(request, 'Time slot deleted successfully.')
+    # messages.success(request, 'Time slot deleted successfully.')
     return redirect('add_availability')
