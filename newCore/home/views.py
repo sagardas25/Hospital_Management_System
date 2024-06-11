@@ -89,26 +89,6 @@ def dashboard(request):
 
 
 
-
-# @login_required
-# def patient_dashboard(request):
-#     doctors = Doctor.objects.all()
-#     return render(request, 'patient_dashboard.html', {
-#         'doctors': doctors,
-#     })
-
-
-# @login_required
-# def doctor_availability(request, doctor_id):
-#     doctor = get_object_or_404(Doctor, id=doctor_id)
-#     time_slots = TimeSlot.objects.filter(doctor=doctor)
-#     return render(request, 'doctor_availability.html', {
-#         'doctor': doctor,
-#         'time_slots': time_slots,
-#     })
-
-
-
 #########################################################################################################################
 
 # patient related views
@@ -160,7 +140,7 @@ def add_availability(request):
                 start_time_str, end_time_str = slot.split('-') 
                 start_time = datetime.strptime(start_time_str, '%H:%M').time()
                 end_time = datetime.strptime(end_time_str, '%H:%M').time()
-                date = get_next_weekday(datetime.now(), day)
+                date = get_next_weekday(datetime.now(), day) 
                 TimeSlot.objects.create(doctor=doctor, date=date, start_time=start_time, end_time=end_time)
 
             return redirect('add_availability')
@@ -168,7 +148,7 @@ def add_availability(request):
         form = TimeSlotForm()
 
     time_slots = TimeSlot.objects.filter(doctor=doctor)
-    slots_by_date = {}
+    slots_by_date = {} 
 
     for slot in time_slots:
 
@@ -200,7 +180,7 @@ def delete_time_slot(request, slot_id):
     time_slot = get_object_or_404(TimeSlot, id=slot_id)
     if time_slot.doctor.user != request.user:
         messages.error(request, 'You are not authorized to delete this time slot.')
-        return redirect('doctor_dashboard')
+        return redirect('add_availability')
     time_slot.delete()
     messages.success(request, 'Time slot deleted successfully.')
-    return redirect('doctor_dashboard')
+    return redirect('add_availability')
