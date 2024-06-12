@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -90,11 +90,11 @@
 
 </body>
 </html>
+ -->
 
 
 
 
-<!-- 
 
 <!DOCTYPE html>
 <html lang="en">
@@ -107,85 +107,107 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            height: 100vh;
+            background-color: #dbdada;
+           
         }
+
         .sidebar {
             width: 250px;
-            /* background: #419b5b; */
-            color: #fff;
+            color: black;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            box-shadow: 3px 0 5px rgba(0,0,0,0.1);
+            height: 100vh;
+            width: 16vw;
+            background-color: #e9ecef;
+            /* background-color: #ebf0f5; */
+            /* background-color: #c9e6d2;  */
         }
+
         .doctor_info {
             text-align: center;
             margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-        .doctor_info h2, .doctor_info h3 {
+
+        .doctor_info h3 , .doctor_info h4 {
             margin: 0;
-            color: #fff;
-        }
-        .doctor_info h2 {
+            color: black;
             font-size: 20px;
+            font-weight: 600;
         }
-        .doctor_info h3 {
-            font-size: 16px;
-            color: #e0f2e9;
-        }
+
+
         .profile-pic {
             width: 80px;
             height: 80px;
             border-radius: 50%;
             overflow: hidden;
-            margin: 15px 0;
+            margin-top: 6%;
             border: 2px solid #387f4a;
         }
+
+        
         .profile-pic img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
+
+
         .doctor_options {
             width: 100%;
+            margin-top: 15%;
         }
-        .doctor_options p {
-            margin: 10px 0;
-        }
+
         .doctor_options a {
             text-decoration: none;
             color: #fff;
             font-weight: bold;
             display: block;
             text-align: center;
-            padding: 10px;
+            padding: 4%;
             background: #387f4a;
             border-radius: 4px;
         }
+
         .doctor_options a:hover {
             background: #2d653a;
         }
+
+
+
     </style>
+
 </head>
 <body>
 
 <div class="sidebar">
+
     <div class="doctor_info">
+
         <div class="profile-pic">
-            <img src="{{ user.profile_picture_url }}" alt="Profile Picture">
+            <img src="{{ user.doctor.profile_pic.url }}" alt="Profile Picture">
         </div>
-        <h2>Welcome</h2>
+
+        <!-- <h2>Welcome</h2> -->
         <h3>{{ user.username }}</h3>
+
     </div>
+
 
     <div class="doctor_options">
         <p><a href="{% url 'add_availability' %}">Add Availability</a></p>
-        <p><a href="#">Update Profile</a></p>
+        <p><a href="{% url 'update_profile' %}">Update Profile</a></p>
     </div>
+
 </div>
 
 </body>
-</html> -->
+</html> 

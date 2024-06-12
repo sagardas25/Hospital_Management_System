@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from . import forms
 from .models import Doctor, TimeSlot, CustomUser
-from .forms import TimeSlotForm 
+from .forms import TimeSlotForm , DoctorProfileForm
 import calendar
 from datetime import datetime , timedelta
 
@@ -193,3 +193,34 @@ def delete_time_slot(request, slot_id):
     time_slot.delete()
     # messages.success(request, 'Time slot deleted successfully.')
     return redirect('add_availability')
+
+
+
+
+@login_required
+def update_profile(request):
+
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+
+    except Doctor.DoesNotExist:
+
+        messages.error(request, 'You are not authorized to view this page.')
+        return redirect('home')
+    
+
+    if request.method == 'POST':
+        profile_form = DoctorProfileForm(request.POST, request.FILES, instance=doctor)  
+
+        if profile_form.is_valid():
+            profile_form.save()
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('update_profile')
+
+
+    else:
+
+        profile_form = DoctorProfileForm(instance=doctor)
+
+
+    return render(request, 'update_profile.html', {'profile_form': profile_form,})

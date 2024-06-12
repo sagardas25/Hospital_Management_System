@@ -19,11 +19,30 @@ class CustomUser(AbstractUser):
 
 
 class Doctor(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+        DEPARTMENT_CHOICES = (
+        ('cardiology', 'Cardiology'),
+        ('dermatology', 'Dermatology'),
+        ('neurology', 'Neurology'),
+        ('pediatrics', 'Pediatrics'),
+        ('psychiatry', 'Psychiatry'),
+        ('radiology', 'Radiology'),
+        ('surgery', 'Surgery'),
+       
+         )
+        
+        user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+        department = models.CharField(max_length=100, choices=DEPARTMENT_CHOICES, blank=True, null=True)
+        full_name = models.CharField(max_length=100, blank=True, null=True)
+        cv = models.FileField(upload_to='cvs/', blank=False, null=True) 
+        mobile_number = models.CharField(max_length=15, blank=True, null=True)
+        profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+        address = models.CharField(blank=True, null=True)
 
 
-    def __str__(self):
-        return self.user.get_full_name()
+
+        def __str__(self):
+             return self.user.get_full_name()
     
     
 
