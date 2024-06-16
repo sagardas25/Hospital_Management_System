@@ -13,8 +13,12 @@
 
     {% if user.role == 'doctor' %}
 
-        <!-- <a href="{% url 'add_availability' %}">add availibility</a> -->
-        {% include 'doctor_sidepanel.html' %}
+   
+
+                <!-- <a href="{% url 'add_availability' %}">add availibility</a> -->
+                {% include 'doctor_sidepanel.html' %}
+
+  
 
 
     {% elif user.role == 'patient' %}

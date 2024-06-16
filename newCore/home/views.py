@@ -12,6 +12,8 @@ from .models import Doctor, TimeSlot, CustomUser
 from .forms import TimeSlotForm , DoctorProfileForm
 import calendar
 from datetime import datetime , timedelta
+from django.http import Http404
+
 
 
 
@@ -36,7 +38,10 @@ def login_user(request):
 
         if user is not None:
             login(request, user)
+
             return redirect('home')
+            
+
         else:
             messages.error(request, "Invalid information. Please try again")
 
@@ -63,7 +68,14 @@ def signup(request):
                 if user.role == 'doctor':
                     Doctor.objects.create(user=user)
 
-                return redirect('home')
+                if user.role == 'doctor':
+                    return redirect('add_or_update_profile')
+
+                else :
+
+                 return redirect('home')
+                
+
             else:
                 return redirect('signup')
     else:
@@ -82,10 +94,12 @@ def logout_user(request):
 
 @login_required
 def dashboard(request):
+    user = request.user 
 
-    user = request.user    
-    return render(request,'dashboard.html' , {'user' : user})
-
+    if user.doctor.is_approved:   
+         return render(request,'dashboard.html' , {'user' : user})
+    else:
+        raise Http404("You don't have enough permissions !!")
 
 
 
@@ -101,6 +115,7 @@ def patient_dashboard(request):
 
 @login_required
 def available_doctors(request):
+    
     if request.user.role != 'patient':
         return redirect('home')
 
@@ -122,9 +137,8 @@ def available_doctors(request):
 @login_required
 def add_availability(request):
     try:
-        doctor = Doctor.objects.get(user=request.user)
+        doctor = Doctor.objects.get(user=request.user,is_approved=True)
     except Doctor.DoesNotExist:
-
         return redirect('home')
 
     if request.method == 'POST':
@@ -196,9 +210,13 @@ def delete_time_slot(request, slot_id):
 
 
 
-
+@never_cache
 @login_required
-def update_profile(request):
+def add_or_update_profile(request):
+
+    if request.user.doctor.full_name :
+        return redirect ('home')
+        
 
     try:
         doctor = Doctor.objects.get(user=request.user)
@@ -214,8 +232,7 @@ def update_profile(request):
 
         if profile_form.is_valid():
             profile_form.save()
-            messages.success(request, 'Profile updated successfully.')
-            return redirect('update_profile')
+            return redirect('home')
 
 
     else:

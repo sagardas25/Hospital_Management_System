@@ -119,6 +119,9 @@
             color: #248d40;
         }
 
+        #not_approved_text{
+            color: red;
+        }
 
 
 
@@ -147,9 +150,20 @@
             <div class="txt_container">
                <div class="text">
 
-               <h1><span>Welcome</span> Mr. {{user.role}} </h1>
-               <p>You are logged in !</p>
+               <h1><span>Welcome</span> Mr. {{user.username}} </h1>
+
+                {% if user.role == 'doctor' and not user.doctor.is_approved %}
+
+                    <p id="not_approved_text">Your account is pending approval by an administrator</p>
+
+                {% else %}
+                
+                    <p>You are logged in !</p>
                              
+
+                {% endif %}
+
+
                </div>
 
 

@@ -165,16 +165,43 @@
         {% if user.is_authenticated %}
 
         <div class="panels">
-            
-            <div class="primary-btn dash">
 
-                <a href="{% url 'dashboard' %}">Dashboard</a>
-    
-            </div>
+            
+            {% if user.role == 'doctor' %}
+
+                {% if user.doctor.is_approved %}
+            
+                    <div class="primary-btn dash">
+
+                        <a href="{% url 'dashboard' %}">Dashboard</a>
+            
+                    </div>
+
+                {% endif %}
+
+            
+
+            {% elif user.role == 'patient' %}
+
+                        <div class="primary-btn dash">
+
+                            <a href="{% url 'dashboard' %}">Dashboard</a>
+                
+                        </div>
+
+            {% endif %}
+
+
+
+
 
             <a href="{% url 'button2' %}">Logout</a>
 
         </div>
+
+
+
+
 
         {% else %}
 

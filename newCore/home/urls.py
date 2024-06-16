@@ -16,7 +16,7 @@ urlpatterns = [
     path('add_availability/', views.add_availability, name='add_availability'),
     path('delete-time-slot/<int:slot_id>/', views.delete_time_slot, name='delete_time_slot'),
     path('available-doctors/', views.available_doctors, name='available_doctors'),
-    path('update_profile/', views.update_profile, name='update_profile'),
+    path('update_profile/', views.add_or_update_profile, name='add_or_update_profile'),
     
     # path('doctor_dashboard/',views.doctor_dash,name='doctor_dash'),
     # path('patient_dashboard/',views.patient_dash , name='patient_dash'),
