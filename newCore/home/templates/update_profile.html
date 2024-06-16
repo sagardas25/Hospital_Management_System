@@ -3,30 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Profile</title>
+    <title>Add Profile Info</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #dbdada;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items:center ;
+
+
+        }
+        
+
+        .content {
+            background-color: #fff;
+            width: 45vw;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 1%;
+            padding-bottom: 1.5%;
+
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 3%;
+            width: 100%;
+        }
+        
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: black;
+            font-weight: 550;
+        }
+
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="file"], #id_department {
+
+            width: 100%;
+            padding: 7px;
+            font-size: 16px;
+            border: 1px solid black;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        
+        button {
+            padding: 8px 20px;
+            background-color: #419b5b;
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            border: 0.5px solid black;
+        }
+
+        button:hover {
+            background-color: #3a7e4d;
+        }
+
+        .update_btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 4%;
+            
+            
+        }
+
+
+    </style>
+
 
 </head>
 <body>
 
+ <div class="content">
+
+    {% if user.doctor.full_name %}
+        <h1>Update Profile</h1>
 
 
-    <h1>Update Profile</h1>
+    {% else %}
+        <h1>Complete Your Profile</h1>
 
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-            <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-        {% endfor %}
-    </div>
     {% endif %}
 
-    <!-- <div class="profile-pic">
-        {% if doctor.profile_pic %}
-            <img src="{{ doctor.profile_pic.url }}" alt="Profile Picture">
-        {% else %}
-            <p>No profile picture available</p>
-        {% endif %}
-    </div> -->
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -39,7 +127,7 @@
             {{ profile_form.department }}
         </div>
         <div class="form-group">
-            {{ profile_form.cv.label_tag }}
+            <label for="cv">CV :</label>
             {{ profile_form.cv }}
         </div>
         <div class="form-group">
@@ -54,9 +142,12 @@
             {{ profile_form.profile_pic.label_tag }}
             {{ profile_form.profile_pic }}
         </div>
-        <div class="form-group">
+        <div class="form-group update_btn">
             <button type="submit">Update Profile</button>
         </div>
     </form>
+
+ </div>
+
 </body>
 </html>
