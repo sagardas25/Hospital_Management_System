@@ -1,51 +1,126 @@
 
-<!DOCTYPE html>
-<html>
+ <!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Available Doctors</title>
-    
     <style>
-        .doctor_card {
-            border: 1px solid grey;
-            padding: 10px;
-            margin-bottom: 10px;
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #dbdada;
+            margin: 0;
+            padding: 20px;
+            color: #333;
         }
-        .doctor_header {
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        .filter-section {
+            margin-bottom: 30px;
+            text-align: center;
+           
+        }
+        label {
             font-weight: bold;
-            margin-bottom: 5px;
         }
-        .time_slot {
-            margin-left: 15px;
-        }
-    </style>
 
+        button {
+            background-color: #387f4a;
+            font-size: 16px;
+            padding: 5px;
+            border-radius: 4px;
+            margin-left: 10px;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            height: 4vh;
+            width: 4vw;
+        }
+
+        button:hover {
+            background-color: #2d653a;
+        }
+        .doctor-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .doctor-name {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #419b5b;
+            font-weight: 600;
+        }
+        .time-slot {
+            margin-left: 20px;
+            font-size: 1em;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        #department{
+
+            width:9vw ;
+            height: 4vh;
+            padding: 0px;
+            outline: none;
+            border: 0.5px solid black;
+            border-radius: 4px;
+            font-size: 16px;
+            margin-left: 10px;
+
+
+
+        }
+
+        
+
+    </style>
 </head>
 <body>
-    <h1>Available Doctors</h1>
-    {% for doctor, time_slots in doctor_slots.items %}
-        <div class="doctor_card">
-            <div class="doctor_header">
-                {{ doctor.user.username }}<br>
+    <div class="container">
+        <h1>Available Doctors</h1>
 
-                Email: {{ doctor.user.email }}<br>
+        <!-- Filter Form Section -->
+        <div class="filter-section">
+            <form method="get" action="{% url 'available_doctors' %}">
+                <label for="department">Select Department:</label>
+                <select name="department" id="department">
+                    <option value="">All</option>
+                    <option value="cardiology" {% if selected_department == 'cardiology' %}selected{% endif %}>Cardiology</option>
+                    <option value="dermatology" {% if selected_department == 'dermatology' %}selected{% endif %}>Dermatology</option>
+                    <option value="neurology" {% if selected_department == 'neurology' %}selected{% endif %}>Neurology</option>
+                    <option value="pediatrics" {% if selected_department == 'pediatrics' %}selected{% endif %}>pediatrics</option>
+                    <option value="psychiatry" {% if selected_department == 'psychiatry' %}selected{% endif %}>psychiatry</option>
+                    <option value="radiology" {% if selected_department == 'radiology' %}selected{% endif %}>radiology</option>
+                    <option value="surgery" {% if selected_department == 'surgery' %}selected{% endif %}>surgery</option>
+                    <!-- Add more options as needed -->
+                </select>
+                <button type="submit">Filter</button>
+            </form>
+        </div>
 
-                {% if doctor.user.phone_number %}
-                     Phone: {{ doctor.user.phone_number }}<br>
-                {% endif %}
-            </div>
-
-            <div>
-                <h3>Available Time Slots:</h3>
+        <!--   Doctors and Slots Section  -->
+        {% for doctor, slots in doctor_slots.items %}
+            <div class="doctor-section">
+                <div class="doctor-name">Dr. {{ doctor.full_name }} - {{ doctor.department }}</div>
                 <ul>
-                    {% for slot in time_slots %}
-                        <li class="time_slot">{{ slot.date }}: {{ slot.start_time }} - {{ slot.end_time }}</li>
+                    {% for slot in slots %}
+                        <li class="time-slot">{{ slot.date }} - {{ slot.start_time }} to {{ slot.end_time }}</li>
                     {% endfor %}
                 </ul>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </body>
-</html>
-
-
-
+</html> 

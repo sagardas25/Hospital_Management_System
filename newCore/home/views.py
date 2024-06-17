@@ -69,7 +69,7 @@ def signup(request):
                     Doctor.objects.create(user=user)
 
                 if user.role == 'doctor':
-                    return redirect('add_or_update_profile')
+                    return redirect('add_profile')
 
                 else :
 
@@ -96,10 +96,16 @@ def logout_user(request):
 def dashboard(request):
     user = request.user 
 
-    if user.doctor.is_approved:   
+    if user.role == 'doctor':
+
+        if user.doctor.is_approved:   
+            return render(request,'dashboard.html' , {'user' : user})
+        else:
+            raise Http404("You don't have enough permissions !!")
+        
+    else :
+    
          return render(request,'dashboard.html' , {'user' : user})
-    else:
-        raise Http404("You don't have enough permissions !!")
 
 
 
@@ -113,18 +119,34 @@ def patient_dashboard(request):
 
 
 
-@login_required
-def available_doctors(request):
+# @login_required
+
+# def available_doctors(request):
     
+#     if request.user.role != 'patient':
+#         return redirect('home')
+
+#     doctors = Doctor.objects.all() 
+#     doctor_slots = {doctor: TimeSlot.objects.filter(doctor=doctor).order_by('date', 'start_time') for doctor in doctors}
+
+#     return render(request, 'available_doctors.html', {'doctor_slots': doctor_slots})
+
+
+def available_doctors(request):
     if request.user.role != 'patient':
         return redirect('home')
 
-    doctors = Doctor.objects.all() 
+   
+    department = request.GET.get('department')
+
+    if department:
+        doctors = Doctor.objects.filter(department=department)
+    else:
+        doctors = Doctor.objects.all()
+
     doctor_slots = {doctor: TimeSlot.objects.filter(doctor=doctor).order_by('date', 'start_time') for doctor in doctors}
 
-    return render(request, 'available_doctors.html', {'doctor_slots': doctor_slots})
-
-
+    return render(request, 'available_doctors.html', {'doctor_slots': doctor_slots, 'selected_department': department})
 
 
 #################################################################################################################################
@@ -212,7 +234,7 @@ def delete_time_slot(request, slot_id):
 
 @never_cache
 @login_required
-def add_or_update_profile(request):
+def add_profile(request):
 
     if request.user.doctor.full_name :
         return redirect ('home')
