@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import CustomUser
-from .models import Doctor
+from .models import Doctor , Patient
 
 
 # Register your models here.
@@ -33,6 +33,16 @@ class DoctorAdmin(admin.ModelAdmin):
     actions = [approve_doctors] 
 
 admin.site.register(Doctor, DoctorAdmin)
+
+
+class PatientAdmin(admin.ModelAdmin):
+    list_display = ['full_name', 'mobile_number', 'address', 'profile_pic']
+    search_fields = ['user__username', 'full_name']
+    fields = ['user', 'full_name', 'mobile_number', 'address', 'profile_pic']
+    readonly_fields = ['user']
+   
+
+admin.site.register(Patient, PatientAdmin)
 
 
 

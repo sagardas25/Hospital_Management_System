@@ -22,6 +22,7 @@ urlpatterns = [
 
     path('add_profile/', views.add_profile, name='add_profile'),
     path('update_profile/', views.update_profile, name='update_profile'),
+    path('update_profile_patient/', views.update_profile_patient, name='update_profile_patient'),
     
 
 ]

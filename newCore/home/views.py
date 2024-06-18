@@ -8,8 +8,8 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from . import forms
-from .models import Doctor, TimeSlot, CustomUser
-from .forms import TimeSlotForm , DoctorProfileForm
+from .models import Doctor, TimeSlot, CustomUser , Patient
+from .forms import TimeSlotForm , DoctorProfileForm , PatientProfileForm
 import calendar
 from datetime import datetime , timedelta
 from django.http import Http404
@@ -68,6 +68,9 @@ def signup(request):
                 if user.role == 'doctor':
                     Doctor.objects.create(user=user)
 
+                if user.role == 'patient':
+                    Patient.objects.create(user=user)
+
                 if user.role == 'doctor':
                     return redirect('add_profile')
 
@@ -119,19 +122,6 @@ def patient_dashboard(request):
 
 
 
-# @login_required
-
-# def available_doctors(request):
-    
-#     if request.user.role != 'patient':
-#         return redirect('home')
-
-#     doctors = Doctor.objects.all() 
-#     doctor_slots = {doctor: TimeSlot.objects.filter(doctor=doctor).order_by('date', 'start_time') for doctor in doctors}
-
-#     return render(request, 'available_doctors.html', {'doctor_slots': doctor_slots})
-
-
 def available_doctors(request):
     if request.user.role != 'patient':
         return redirect('home')
@@ -147,6 +137,38 @@ def available_doctors(request):
     doctor_slots = {doctor: TimeSlot.objects.filter(doctor=doctor).order_by('date', 'start_time') for doctor in doctors}
 
     return render(request, 'available_doctors.html', {'doctor_slots': doctor_slots, 'selected_department': department})
+
+
+
+
+@never_cache
+@login_required
+def update_profile_patient(request):
+
+    try:
+        patient = Patient.objects.get(user=request.user)
+
+    except Patient.DoesNotExist:
+
+        messages.error(request, 'You are not authorized to view this page.')
+        return redirect('home')
+    
+
+    if request.method == 'POST':
+        patient_profile_form = PatientProfileForm(request.POST, request.FILES, instance=patient)  
+
+        if patient_profile_form.is_valid():
+            patient_profile_form.save()
+            # messages.success(request, 'Profile updated successfully.')
+            return redirect('update_profile_patient') 
+
+
+    else:
+
+        patient_profile_form = PatientProfileForm(instance=patient)
+
+
+    return render(request, 'update_profile_patient.html', {'patient_profile_form': patient_profile_form,})
 
 
 #################################################################################################################################
@@ -287,7 +309,7 @@ def update_profile(request):
 
         if profile_form.is_valid():
             profile_form.save()
-            messages.success(request, 'Profile updated successfully.')
+            # messages.success(request, 'Profile updated successfully.')
             return redirect('update_profile') 
 
 

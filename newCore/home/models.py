@@ -36,7 +36,7 @@ class Doctor(models.Model):
         full_name = models.CharField(max_length=100, blank=True, null=True)
         cv = models.FileField(upload_to='cvs/', blank=False, null=True) 
         mobile_number = models.CharField(max_length=15, blank=True, null=True)
-        profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+        profile_pic = models.ImageField(upload_to='profile_pics/doctors/', blank=True, null=True)
         address = models.CharField(blank=True, null=True)
         is_approved = models.BooleanField(default=False)
 
@@ -59,3 +59,11 @@ class TimeSlot(models.Model):
         return f'{self.doctor.user.get_full_name()} - {self.start_time} to {self.end_time} on {self.date}'
 
 
+
+class Patient(models.Model):
+     
+     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+     full_name = models.CharField(max_length=50,blank=True, null=True)
+     mobile_number = models.CharField(max_length=15, blank=True, null=True)
+     profile_pic = models.ImageField(upload_to='profile_pics/patients/', blank=True, null=True)
+     address = models.CharField(blank=True, null=True) 

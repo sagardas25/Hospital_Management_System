@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from . import models
-from .models import CustomUser , TimeSlot , Doctor
+from .models import CustomUser , TimeSlot , Doctor , Patient
 from django.contrib.auth import get_user_model
 User = get_user_model()
 import datetime
@@ -33,6 +33,12 @@ class DoctorProfileForm(forms.ModelForm):
         model = Doctor
         fields = ['full_name', 'department',  'cv', 'mobile_number', 'address','profile_pic']
 
+
+
+class PatientProfileForm(forms.ModelForm):
+    class Meta:
+        model = Patient
+        fields = ['full_name', 'mobile_number', 'address', 'profile_pic']
 
 
 

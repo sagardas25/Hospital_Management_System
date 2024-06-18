@@ -30,7 +30,7 @@
             /* background-color: #c9e6d2;  */
         }
 
-        .doctor_info {
+        .patient_info {
             text-align: center;
             margin-bottom: 20px;
             width: 100%;
@@ -40,7 +40,7 @@
             align-items: center;
         }
 
-        .doctor_info h3 , .doctor_info h4 {
+        .patient_info h3 , .patient_info h4 {
             margin: 0;
             color: black;
             font-size: 20px;
@@ -65,12 +65,12 @@
         }
 
 
-        .doctor_options {
+        .patient_options {
             width: 100%;
             margin-top: 15%;
         }
 
-        .doctor_options a {
+        .patient_options a {
             text-decoration: none;
             color: #fff;
             font-weight: bold;
@@ -81,7 +81,7 @@
             border-radius: 4px;
         }
 
-        .doctor_options a:hover {
+        .patient_options a:hover {
             background: #2d653a;
         }
 
@@ -94,12 +94,12 @@
 
 <div class="sidebar">
 
-    <div class="doctor_info">
+    <div class="patient_info">
 
         <div class="profile-pic">
            
-            {% if user.doctor.profile_pic %}
-            <img src="{{ user.doctor.profile_pic.url }}" alt="Profile Picture">
+            {% if user.patient.profile_pic %}
+            <img src="{{ user.patient.profile_pic.url }}" alt="Profile Picture">
             {% else %}
                 <img src="/path/to/default/image.jpg" alt="Profile Picture">
             {% endif %}
@@ -112,9 +112,10 @@
     </div>
 
 
-    <div class="doctor_options">
+    <div class="patient_options">
         <p><a href="{% url 'available_doctors' %}">Available Doctors</a></p> 
-        <!-- <p><a href="{% url 'add_profile' %}">Update Profile</a></p> -->
+        <p><a href="{% url 'update_profile_patient' %}">Update Profile</a></p>
+        
     </div>
 
 </div>
