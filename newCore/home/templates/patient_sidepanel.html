@@ -6,13 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doctor Sidepanel</title>
     <style>
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #dbdada;
            
-        }
+        } 
 
         .sidebar {
             width: 250px;
@@ -105,15 +106,15 @@
 
         </div>
 
-        <!-- <h2>Welcome</h2> -->
+
         <h3>{{ user.username }}</h3>
 
     </div>
 
 
     <div class="doctor_options">
-        <p><a href="{% url 'add_availability' %}">Add Availability</a></p>
-        <p><a href="{% url 'update_profile' %}">Update Profile</a></p>
+        <p><a href="{% url 'available_doctors' %}">Available Doctors</a></p> 
+        <!-- <p><a href="{% url 'add_profile' %}">Update Profile</a></p> -->
     </div>
 
 </div>

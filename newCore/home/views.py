@@ -18,7 +18,7 @@ from django.http import Http404
 
 
 #home page
-
+@never_cache
 def home(request):
     return render(request, 'home.html')
 
@@ -219,7 +219,6 @@ def get_next_weekday(start_date, weekday):
 
 
 
-
 @login_required
 def delete_time_slot(request, slot_id):
     time_slot = get_object_or_404(TimeSlot, id=slot_id)
@@ -236,9 +235,43 @@ def delete_time_slot(request, slot_id):
 @login_required
 def add_profile(request):
 
+    # if request.user.doctor.full_name :
+    #     return redirect ('home')
+    
     if request.user.doctor.full_name :
-        return redirect ('home')
+         return redirect ('home')
         
+
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+
+    except Doctor.DoesNotExist:
+
+        # messages.error(request, 'You are not authorized to view this page.')
+        return redirect('home')
+    
+
+    if request.method == 'POST':
+        profile_form = DoctorProfileForm(request.POST, request.FILES, instance=doctor)  
+
+        if profile_form.is_valid():
+            profile_form.save()
+            # messages.success(request, 'Profile updated successfully.')
+            return redirect('home')
+
+
+    else:
+
+        profile_form = DoctorProfileForm(instance=doctor)
+
+
+    return render(request, 'update_profile.html', {'profile_form': profile_form,})
+
+
+
+@never_cache
+@login_required
+def update_profile(request):
 
     try:
         doctor = Doctor.objects.get(user=request.user)
@@ -254,7 +287,8 @@ def add_profile(request):
 
         if profile_form.is_valid():
             profile_form.save()
-            return redirect('home')
+            messages.success(request, 'Profile updated successfully.')
+            return redirect('update_profile') 
 
 
     else:
