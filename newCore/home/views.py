@@ -171,6 +171,26 @@ def update_profile_patient(request):
     return render(request, 'update_profile_patient.html', {'patient_profile_form': patient_profile_form,})
 
 
+
+def book_appointment(request, doctor_id):
+    doctor = get_object_or_404(Doctor, id=doctor_id)
+    slots = TimeSlot.objects.filter(doctor=doctor, booked=False).order_by('date', 'start_time')
+    
+    if request.method == 'POST':
+        timeslot_id = request.POST.get('slot_id')
+        timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
+        timeslot.booked = True
+        timeslot.patient = request.user
+        timeslot.save()
+        return redirect('confirm_booking', doctor_id=doctor.id, timeslot_id=timeslot.id)
+
+    return render(request, 'book_appointment.html', {'doctor': doctor, 'slots': slots})
+
+
+def confirm_booking(request, doctor_id, timeslot_id):
+    timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
+    return render(request, 'booking_confirmation.html', {'timeslot': timeslot})
+
 #################################################################################################################################
 
 

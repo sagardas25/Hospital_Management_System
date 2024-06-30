@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #444;
+        }
+        .slot {
+            margin-bottom: 15px;
+        }
+        .book-button {
+            background-color: #387f4a;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .book-button:hover {
+            background-color: #2d653a;
+        }
+        .doctor-info {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .profile-picture {
+            max-width: 150px;
+            max-height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-top: 6%;
+            border: 2px solid #387f4a;
+        }
+
+        
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Book Appointment</h1>
+
+    <div class="profile-pic">
+           
+        {% if doctor.profile_pic %}
+        <img src="{{ doctor.profile_pic.url }}" alt="Profile Picture">
+        {% else %}
+            <img src="/path/to/default/image.jpg" alt="Profile Picture">
+        {% endif %}
+
+    </div>
+
+    <div class="doctor-info">
+        <p><strong>Name:</strong> {{ doctor.full_name }}</p>
+        <p><strong>Department:</strong> {{ doctor.department }}</p>
+        <p><strong>Contact Information:</strong> {{ doctor.mobile_number }}</p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <div class="slot">
+            <label for="slot_id">Select Time Slot:</label>
+            <select name="slot_id" id="slot_id">
+                {% for slot in slots %}
+                    <option value="{{ slot.id }}">{{ slot.date }} - {{ slot.start_time }} to {{ slot.end_time }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="book-button">Book Appointment</button>
+    </form>
+</div>
+</body>
+</html>

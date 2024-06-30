@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #444;
+        }
+        p {
+            font-size: 1.2em;
+            color: #333;
+        }
+        .confirmation {
+            font-weight: bold;
+            color: #387f4a;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Booking Confirmation</h1>
+    <p>Your appointment with Dr. {{ timeslot.doctor.full_name }} is confirmed.</p>
+    <p>Date: {{ timeslot.date }}</p>
+    <p>Time: {{ timeslot.start_time }} to {{ timeslot.end_time }}</p>
+    <p class="confirmation">Thank you for booking!</p>
+</div>
+</body>
+</html>

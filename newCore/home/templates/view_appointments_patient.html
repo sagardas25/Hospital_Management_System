@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Appointments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #dbdada;
+        } 
+
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #444;
+            text-align: center;
+        }
+
+        .appointment {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .appointment:last-child {
+            border-bottom: none;
+        }
+
+        .appointment p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Your Appointments</h1>
+    {% if appointments %}
+        {% for appointment in appointments %}
+            <div class="appointment">
+                <p><strong>Date:</strong> {{ appointment.date }}</p>
+                <p><strong>Time:</strong> {{ appointment.start_time }} - {{ appointment.end_time }}</p>
+                <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.full_name }}</p>
+                <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
+                <p><strong>Contact:</strong> {{ appointment.doctor.mobile_number }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have no appointments booked.</p>
+    {% endif %}
+</div>
+</body>
+</html>
