@@ -172,6 +172,7 @@ def update_profile_patient(request):
 
 
 
+@login_required
 def book_appointment(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
     slots = TimeSlot.objects.filter(doctor=doctor, booked=False).order_by('date', 'start_time')
@@ -179,17 +180,30 @@ def book_appointment(request, doctor_id):
     if request.method == 'POST':
         timeslot_id = request.POST.get('slot_id')
         timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
+        patient = get_object_or_404(Patient, user=request.user)  # Ensure we get the Patient instance
+
         timeslot.booked = True
-        timeslot.patient = request.user
+        timeslot.patient = patient  # Assign the Patient instance
         timeslot.save()
         return redirect('confirm_booking', doctor_id=doctor.id, timeslot_id=timeslot.id)
 
     return render(request, 'book_appointment.html', {'doctor': doctor, 'slots': slots})
 
 
+
+@login_required
 def confirm_booking(request, doctor_id, timeslot_id):
     timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
     return render(request, 'booking_confirmation.html', {'timeslot': timeslot})
+
+
+
+def view_appointments_patient(request):
+
+    patient = Patient.objects.get(user=request.user)
+    appointments = TimeSlot.objects.filter(patient=patient, booked=True).order_by('date', 'start_time')
+    return render(request, 'view_appointments_patient.html', {'appointments': appointments})
+
 
 #################################################################################################################################
 

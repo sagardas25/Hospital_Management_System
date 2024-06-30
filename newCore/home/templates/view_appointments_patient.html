@@ -29,7 +29,6 @@
 
         .appointment {
             padding: 15px;
-            border-bottom: 1px solid #ddd;
             margin-bottom: 15px;
         }
 
@@ -48,12 +47,14 @@
     {% if appointments %}
         {% for appointment in appointments %}
             <div class="appointment">
+                <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.full_name }}</p>
                 <p><strong>Date:</strong> {{ appointment.date }}</p>
                 <p><strong>Time:</strong> {{ appointment.start_time }} - {{ appointment.end_time }}</p>
-                <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.full_name }}</p>
                 <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
                 <p><strong>Contact:</strong> {{ appointment.doctor.mobile_number }}</p>
             </div>
+
+            <hr>
         {% endfor %}
     {% else %}
         <p>You have no appointments booked.</p>

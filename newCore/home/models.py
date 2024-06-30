@@ -49,18 +49,6 @@ class Doctor(models.Model):
     
 
 
-class TimeSlot(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    booked = models.BooleanField(default=False)  
-
-    def __str__(self):
-        return f'{self.doctor.user.get_full_name()} - {self.start_time} to {self.end_time} on {self.date}'
-
-
-
 class Patient(models.Model):
      
      user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -68,3 +56,16 @@ class Patient(models.Model):
      mobile_number = models.CharField(max_length=15, blank=True, null=True)
      profile_pic = models.ImageField(upload_to='profile_pics/patients/', blank=True, null=True)
      address = models.CharField(blank=True, null=True) 
+
+
+
+class TimeSlot(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.SET_NULL, null=True, blank=True)
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    booked = models.BooleanField(default=False)  
+
+    def __str__(self):
+        return f'{self.doctor.user.get_full_name()} - {self.start_time} to {self.end_time} on {self.date}'
