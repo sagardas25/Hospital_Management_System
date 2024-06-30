@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from . import forms
 from .models import Doctor, TimeSlot, CustomUser , Patient
-from .forms import TimeSlotForm , DoctorProfileForm , PatientProfileForm
+from .forms import TimeSlotForm , DoctorProfileForm , PatientProfileForm, PrescriptionForm
 import calendar
 from datetime import datetime , timedelta
 from django.http import Http404
@@ -353,3 +353,22 @@ def update_profile(request):
 
 
     return render(request, 'update_profile.html', {'profile_form': profile_form,})
+
+
+@login_required
+def doctor_view_appointments(request):
+    doctor = get_object_or_404(Doctor, user=request.user)
+    appointments = TimeSlot.objects.filter(doctor=doctor, booked=True).order_by('date', 'start_time')
+    return render(request, 'doctor_view_appointments.html', {'appointments': appointments})
+
+@login_required
+def appointment_detail(request, appointment_id):
+    appointment = get_object_or_404(TimeSlot, id=appointment_id)
+    if request.method == 'POST':
+        form = PrescriptionForm(request.POST, request.FILES, instance=appointment)
+        if form.is_valid():
+            form.save()
+            return redirect('doctor_view_appointments')
+    else:
+        form = PrescriptionForm(instance=appointment)
+    return render(request, 'appointment_detail.html', {'appointment': appointment, 'form': form})

@@ -64,3 +64,11 @@ class TimeSlotForm(forms.Form):
     time_slots = forms.MultipleChoiceField(choices=TIME_SLOTS, widget=forms.CheckboxSelectMultiple)
 
 
+
+class PrescriptionForm(forms.ModelForm):
+    class Meta:
+        model = TimeSlot
+        fields = ['prescription', 'remarks']
+        widgets = {
+            'remarks': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+        }

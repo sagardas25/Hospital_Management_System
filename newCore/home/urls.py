@@ -30,6 +30,9 @@ urlpatterns = [
 
     path('view-appointments-patient/', views.view_appointments_patient, name='view_appointments_patient'),
 
+    path('doctor/view-appointments/', views.doctor_view_appointments, name='doctor_view_appointments'),
+    path('appointment-detail/<int:appointment_id>/', views.appointment_detail, name='appointment_detail'),
+
 ]
     
 

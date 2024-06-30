@@ -65,7 +65,9 @@ class TimeSlot(models.Model):
     date = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
-    booked = models.BooleanField(default=False)  
+    booked = models.BooleanField(default=False) 
+    prescription = models.FileField(upload_to='prescriptions/', blank=True, null=True)
+    remarks = models.TextField(blank=True, null=True) 
 
     def __str__(self):
         return f'{self.doctor.user.get_full_name()} - {self.start_time} to {self.end_time} on {self.date}'
