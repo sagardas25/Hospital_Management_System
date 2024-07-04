@@ -9,27 +9,26 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #dbdada;
+            background-color: #f2f2f2;
         } 
 
         .container {
             width: 60%;
-            margin: 0 auto;
+            margin: 40px auto;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
         }
 
         h1 {
-            color: #444;
+            color: #333;
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .appointment {
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 15px 0;
         }
 
         .appointment:last-child {
@@ -38,6 +37,35 @@
 
         .appointment p {
             margin: 5px 0;
+        }
+
+        .status {
+            padding: 0px 10px;
+            border-radius: 5px;
+            color: #fff;
+            display: inline-block;
+        }
+
+        .status.pending {
+            color: #f0ad4e;
+            font-weight: 600;
+        }
+
+        .status.accepted {
+            color: #5cb85c;
+            font-weight: 600;
+        }
+
+        .status.rejected {
+           color: #d9534f;
+           font-weight: 600;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: #e0e0e0;
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -49,12 +77,14 @@
             <div class="appointment">
                 <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.full_name }}</p>
                 <p><strong>Date:</strong> {{ appointment.date }}</p>
-                <p><strong>Time:</strong> {{ appointment.start_time }} - {{ appointment.end_time }}</p>
+                <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
                 <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
                 <p><strong>Contact:</strong> {{ appointment.doctor.mobile_number }}</p>
+                <p><strong>Status:</strong> <span class="status {{ appointment.status }}">{{ appointment.status }}</span></p>
             </div>
-
-            <hr>
+            {% if not forloop.last %}
+                <hr>
+            {% endif %}
         {% endfor %}
     {% else %}
         <p>You have no appointments booked.</p>

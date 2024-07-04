@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending Appointments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .appointment-list {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .appointment {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .appointment:last-child {
+            border-bottom: none;
+        }
+
+        .appointment p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .appointment button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background: #387f4a;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .appointment button.reject {
+            background: #b03a2e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="appointment-list">
+    <h2>Pending Appointments</h2>
+    {% if  appointments %}
+            {% for appointment in appointments %}
+                <div class="appointment">
+                    <p><strong>Patient:</strong> {{ appointment.patient.full_name }}</p>
+                    <p><strong>Date:</strong> {{ appointment.date }}</p>
+                    <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <input type="hidden" name="appointment_id" value="{{ appointment.id }}">
+                        <button type="submit" name="action" value="accept">Accept</button>
+                        <button type="submit" name="action" value="reject" class="reject">Reject</button>
+                    </form>
+                </div>
+            {% endfor %}
+    {% else %}
+        <div class="appointment">
+            <p><strong> You have no pending appointments !! </strong></p>
+        </div>
+
+    {% endif %}
+</div>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import CustomUser
-from .models import Doctor , Patient
+from .models import Doctor , Patient , TimeSlot
 
 
 # Register your models here.
@@ -43,6 +43,13 @@ class PatientAdmin(admin.ModelAdmin):
    
 
 admin.site.register(Patient, PatientAdmin)
+
+
+@admin.action(description='change booking status')
+def booking_status(modeladmin, request, queryset):
+    queryset.update(booked=False)
+
+
 
 
 

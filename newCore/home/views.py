@@ -8,8 +8,8 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from . import forms
-from .models import Doctor, TimeSlot, CustomUser , Patient
-from .forms import TimeSlotForm , DoctorProfileForm , PatientProfileForm, PrescriptionForm
+from .models import Doctor, TimeSlot, CustomUser , Patient , Appointment
+from .forms import TimeSlotForm , DoctorProfileForm , PatientProfileForm
 import calendar
 from datetime import datetime , timedelta
 from django.http import Http404
@@ -178,6 +178,7 @@ def book_appointment(request, doctor_id):
     slots = TimeSlot.objects.filter(doctor=doctor, booked=False).order_by('date', 'start_time')
     
     if request.method == 'POST':
+        
         timeslot_id = request.POST.get('slot_id')
         timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
         patient = get_object_or_404(Patient, user=request.user)  # Ensure we get the Patient instance
@@ -185,9 +186,62 @@ def book_appointment(request, doctor_id):
         timeslot.booked = True
         timeslot.patient = patient  # Assign the Patient instance
         timeslot.save()
+
+        # Create an appointment when booking a timeslot
+        appointment = Appointment.objects.create(
+            patient=patient,
+            doctor=doctor,
+            time_slot=timeslot,
+            date=timeslot.date,
+            status='pending'  # Set status to pending
+          )
+
+
+
         return redirect('confirm_booking', doctor_id=doctor.id, timeslot_id=timeslot.id)
 
     return render(request, 'book_appointment.html', {'doctor': doctor, 'slots': slots})
+
+
+
+
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Doctor, TimeSlot, Patient, Appointment
+
+@login_required
+def book_appointment(request, doctor_id):
+    doctor = get_object_or_404(Doctor, id=doctor_id)
+    slots = TimeSlot.objects.filter(doctor=doctor, booked=False).order_by('date', 'start_time')
+    
+    if request.method == 'POST':
+        timeslot_id = request.POST.get('slot_id')
+        timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
+        
+        # Ensure we get the Patient instance
+        patient = get_object_or_404(Patient, user=request.user)
+
+        # Update TimeSlot and create Appointment
+        timeslot.booked = True
+        timeslot.patient = patient
+        timeslot.save()
+
+        # Create an appointment when booking a timeslot
+        appointment = Appointment.objects.create(
+            patient=patient,
+            doctor=doctor,
+            time_slot=timeslot,
+            date=timeslot.date,
+            status='pending'  # Set status to pending
+        )
+
+        return redirect('confirm_booking', doctor_id=doctor.id, timeslot_id=timeslot.id)
+
+    return render(request, 'book_appointment.html', {'doctor': doctor, 'slots': slots})
+
+
+
 
 
 
@@ -201,7 +255,8 @@ def confirm_booking(request, doctor_id, timeslot_id):
 def view_appointments_patient(request):
 
     patient = Patient.objects.get(user=request.user)
-    appointments = TimeSlot.objects.filter(patient=patient, booked=True).order_by('date', 'start_time')
+
+    appointments = Appointment.objects.filter(patient=patient).order_by('date', 'time_slot__start_time')
     return render(request, 'view_appointments_patient.html', {'appointments': appointments})
 
 
@@ -355,20 +410,25 @@ def update_profile(request):
     return render(request, 'update_profile.html', {'profile_form': profile_form,})
 
 
-@login_required
-def doctor_view_appointments(request):
-    doctor = get_object_or_404(Doctor, user=request.user)
-    appointments = TimeSlot.objects.filter(doctor=doctor, booked=True).order_by('date', 'start_time')
-    return render(request, 'doctor_view_appointments.html', {'appointments': appointments})
 
-@login_required
-def appointment_detail(request, appointment_id):
-    appointment = get_object_or_404(TimeSlot, id=appointment_id)
-    if request.method == 'POST':
-        form = PrescriptionForm(request.POST, request.FILES, instance=appointment)
-        if form.is_valid():
-            form.save()
-            return redirect('doctor_view_appointments')
-    else:
-        form = PrescriptionForm(instance=appointment)
-    return render(request, 'appointment_detail.html', {'appointment': appointment, 'form': form})
+
+
+
+def view_appointments(request):
+    if request.method == "POST":
+        appointment_id = request.POST.get('appointment_id')
+        action = request.POST.get('action')
+        appointment = Appointment.objects.get(id=appointment_id)
+        
+        if action == 'accept':
+            appointment.status = 'accepted'
+        elif action == 'reject':
+            appointment.status = 'rejected'
+            appointment.time_slot.booked = False
+            appointment.time_slot.save()
+        
+        appointment.save()
+        return redirect('view_appointments_doctor')
+    
+    pending_appointments = Appointment.objects.filter(status='pending', doctor=request.user.doctor)
+    return render(request, 'view_appointments_doctor.html', {'appointments': pending_appointments})

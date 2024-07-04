@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+
     path('', views.home, name='home'),
     path('home/', views.home, name='sec_home'),
 
@@ -30,10 +31,10 @@ urlpatterns = [
 
     path('view-appointments-patient/', views.view_appointments_patient, name='view_appointments_patient'),
 
-    path('doctor/view-appointments/', views.doctor_view_appointments, name='doctor_view_appointments'),
-    path('appointment-detail/<int:appointment_id>/', views.appointment_detail, name='appointment_detail'),
+     path('view_appointments_doctor/', views.view_appointments, name='view_appointments_doctor'),
 
 ]
+
     
 
 

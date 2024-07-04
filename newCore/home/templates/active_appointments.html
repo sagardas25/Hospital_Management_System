@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Active Appointments</title>
+</head>
+<body>
+    <h1>Active Appointments</h1>
+    <ul>
+        {% for appointment in appointments %}
+            <li>
+                Patient: {{ appointment.patient.user.username }} 
+                Date: {{ appointment.timeslot.date }} 
+                Time: {{ appointment.timeslot.start_time }} - {{ appointment.timeslot.end_time }}
+                <a href="#">View</a> <!-- Add a view link if detailed view is needed -->
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

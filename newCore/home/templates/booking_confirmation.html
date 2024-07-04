@@ -31,15 +31,22 @@
             font-weight: bold;
             color: #387f4a;
         }
+
+        .pending{
+            color: #f0ad4e;
+        }
+
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Booking Confirmation</h1>
-    <p>Your appointment with Dr. {{ timeslot.doctor.full_name }} is confirmed.</p>
+    <h1>Booking Status</h1>
+    <p>Details of Your appointment with Dr. {{ timeslot.doctor.full_name }} : </p>
     <p>Date: {{ timeslot.date }}</p>
     <p>Time: {{ timeslot.start_time }} to {{ timeslot.end_time }}</p>
+    <p class="confirmation pending ">Your appointment is in pending status !</p>
     <p class="confirmation">Thank you for booking!</p>
+    <p>back to page <a href="{% url 'available_doctors' %}">available doctors</a></p>
 </div>
 </body>
 </html>

@@ -65,10 +65,10 @@ class TimeSlotForm(forms.Form):
 
 
 
-class PrescriptionForm(forms.ModelForm):
-    class Meta:
-        model = TimeSlot
-        fields = ['prescription', 'remarks']
-        widgets = {
-            'remarks': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
-        }
+# class PrescriptionForm(forms.ModelForm):
+#     class Meta:
+#         model = TimeSlot
+#         fields = ['prescription', 'remarks']
+#         widgets = {
+#             'remarks': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+#         }
