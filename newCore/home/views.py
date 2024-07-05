@@ -257,7 +257,7 @@ def view_appointments_patient(request):
     patient = Patient.objects.get(user=request.user)
 
     appointments = Appointment.objects.filter(patient=patient).order_by('date', 'time_slot__start_time')
-    return render(request, 'view_appointments_patient.html', {'appointments': appointments})
+    return render(request, 'view_appointments_patient.html', {'appointments': appointments}) 
 
 
 #################################################################################################################################
@@ -414,7 +414,7 @@ def update_profile(request):
 
 
 
-def view_appointments(request):
+def view_appointments_doctor(request):
     if request.method == "POST":
         appointment_id = request.POST.get('appointment_id')
         action = request.POST.get('action')
@@ -432,3 +432,29 @@ def view_appointments(request):
     
     pending_appointments = Appointment.objects.filter(status='pending', doctor=request.user.doctor)
     return render(request, 'view_appointments_doctor.html', {'appointments': pending_appointments})
+
+
+
+@login_required
+def active_appointments(request):
+    doctor = request.user.doctor 
+    appointments = Appointment.objects.filter(doctor=doctor, status='accepted').order_by('date', 'time_slot__start_time')
+    return render(request, 'active_appointments.html', {'appointments': appointments})
+
+
+
+@login_required
+def appointment_details(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    if request.method == 'POST':
+        prescription = request.FILES.get('prescription')
+        remarks = request.POST.get('remarks')
+
+        if prescription:
+            appointment.prescription = prescription
+        appointment.remarks = remarks
+        appointment.save()
+
+        return redirect('active_appointments')
+    
+    return render(request, 'appointment_details.html', {'appointment': appointment})

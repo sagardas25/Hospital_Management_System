@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 16px;
+        }
+        p {
+            margin: 8px 0;
+            /* color: #666; */
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 16px;
+            background-color: #387f4a;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2d653a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Appointment Details</h1>
+        <p><strong>Patient Name:</strong> {{ appointment.patient.full_name }}</p>
+        <p><strong>Patient Address:</strong> {{ appointment.patient.address }}</p>
+        <p><strong>Mobile Number:</strong> {{ appointment.patient.mobile_number }}</p>
+        <p><strong>Date:</strong> {{ appointment.date }}</p>
+        <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+        
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <label for="prescription"> <strong>Upload Prescription:</strong></label>
+                <input type="file" id="prescription" name="prescription"> 
+            </div>
+            <div>
+                <label for="remarks"><strong>Remarks:</strong></label>
+                <textarea id="remarks" name="remarks">{{ appointment.remarks }}</textarea> 
+            </div>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>
+</html>

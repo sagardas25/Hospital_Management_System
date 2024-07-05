@@ -52,7 +52,7 @@ class Doctor(models.Model):
 class Patient(models.Model):
      
      user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-     full_name = models.CharField(max_length=50,blank=True, null=True)
+     full_name = models.CharField(max_length=50,blank=True, null=True) 
      mobile_number = models.CharField(max_length=15, blank=True, null=True)
      profile_pic = models.ImageField(upload_to='profile_pics/patients/', blank=True, null=True)
      address = models.CharField(blank=True, null=True) 

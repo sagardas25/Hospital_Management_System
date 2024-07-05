@@ -1,21 +1,64 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Active Appointments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .appointment-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .appointment-card h2 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .appointment-card p {
+            margin: 8px 0;
+            color: #666;
+        }
+        .view-details {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 10px 16px;
+            background-color: #387f4a;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .view-details:hover {
+            background-color: #2d653a;
+        }
+    </style>
 </head>
 <body>
-    <h1>Active Appointments</h1>
-    <ul>
+    <div class="container">
+        <h1>Active Appointments</h1>
         {% for appointment in appointments %}
-            <li>
-                Patient: {{ appointment.patient.user.username }} 
-                Date: {{ appointment.timeslot.date }} 
-                Time: {{ appointment.timeslot.start_time }} - {{ appointment.timeslot.end_time }}
-                <a href="#">View</a> <!-- Add a view link if detailed view is needed -->
-            </li>
+            <div class="appointment-card">
+                <h2><strong>Patient:</strong> {{ appointment.patient.full_name }}</h2>
+                <p><strong>Date:</strong> {{ appointment.date }}</p>
+                <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+                <a class="view-details" href="{% url 'appointment_details' appointment.id %}">View Details</a>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
 </body>
 </html>
