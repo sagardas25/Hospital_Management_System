@@ -50,16 +50,26 @@
 <body>
     <div class="container">
         <h1>Active Appointments</h1>
-        {% for appointment in appointments %}
-            <div class="appointment-card">
-                <h2><strong>Doctor:</strong> {{ appointment.doctor.full_name }}</h2>
-                <p><strong>Date:</strong> {{ appointment.date }}</p>
-                <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
-                <p><strong>Date:</strong> {{ appointment.doctor.department }}</p>
-                <p><strong>Date:</strong> {{ appointment.doctor.mobile_number }}</p>
-                <a class="view-details" href="{% url 'appointment_details_patient' appointment.id %}">View Details</a>
-            </div>
-        {% endfor %}
+        {% if appointments %}
+
+            {% for appointment in appointments %}
+                <div class="appointment-card">
+                    <h2><strong>Doctor:</strong> {{ appointment.doctor.full_name }}</h2>
+                    <p><strong>Date:</strong> {{ appointment.date }}</p>
+                    <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+                    <p><strong>Date:</strong> {{ appointment.doctor.department }}</p>
+                    <p><strong>Date:</strong> {{ appointment.doctor.mobile_number }}</p>
+                    <a class="view-details" href="{% url 'appointment_details_patient' appointment.id %}">View Details</a>
+                </div>
+            {% endfor %}
+
+        {% else %}
+                <div class="appointment-card">
+                    <P>You have no current active appointments !</P>
+                </div>
+
+        {% endif %}
+        
     </div>
 </body>
 </html>

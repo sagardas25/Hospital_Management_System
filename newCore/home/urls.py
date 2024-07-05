@@ -38,6 +38,10 @@ urlpatterns = [
     path('active-appointments-patient', views.active_appointments_patient, name='active_appointments_patient'),
     path('appointment-details-patient/<int:appointment_id>/', views.appointment_details_patient, name='appointment_details_patient'),
 
+
+    path('current_patients/', views.current_patients, name='current_patients'),
+    path('patient_details/<int:patient_id>/', views.patient_details, name='patient_details'),
+
 ]
 
     

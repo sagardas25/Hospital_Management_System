@@ -478,3 +478,21 @@ def appointment_details(request, appointment_id):
 def ongoing_treatment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
     return render(request, 'ongoing_treatment.html', {'appointment': appointment})
+
+
+
+@login_required
+def current_patients(request):
+    doctor = request.user.doctor
+    accepted_appointments = Appointment.objects.filter(doctor=doctor, status='accepted')
+    patients = {appointment.patient for appointment in accepted_appointments}
+    
+    return render(request, 'current_patients.html', {'patients': patients})
+
+@login_required
+def patient_details(request, patient_id):
+    doctor = request.user.doctor
+    patient = get_object_or_404(Patient, id=patient_id)
+    appointments = Appointment.objects.filter(doctor=doctor, patient=patient, status='accepted')
+    
+    return render(request, 'patient_details.html', {'patient': patient, 'appointments': appointments})
