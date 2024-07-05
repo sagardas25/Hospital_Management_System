@@ -33,7 +33,7 @@
             margin: 8px 0;
             color: #666;
         }
-        .view-details {
+        .view-details  , .ongoing-treatment{
             display: inline-block;
             margin-top: 8px;
             padding: 10px 16px;
@@ -43,7 +43,7 @@
             border-radius: 4px;
             transition: background-color 0.3s;
         }
-        .view-details:hover {
+        .view-details:hover , .ongoing-treatment:hover{
             background-color: #2d653a;
         }
     </style>
@@ -57,6 +57,7 @@
                 <p><strong>Date:</strong> {{ appointment.date }}</p>
                 <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
                 <a class="view-details" href="{% url 'appointment_details' appointment.id %}">View Details</a>
+                <a class="ongoing-treatment" href="{% url 'ongoing_treatment' appointment.id %}">Ongoing Treatment</a>
             </div>
         {% endfor %}
     </div>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ongoing Treatment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 16px;
+        }
+        p {
+            margin: 8px 0;
+            color: #666;
+        }
+        .prescription {
+            margin: 16px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ongoing Treatment</h1>
+        <p><strong>Patient Name:</strong> {{ appointment.patient.full_name }}</p>
+        <p><strong>Date:</strong> {{ appointment.date }}</p>
+        <p><strong>Time :</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+        <p><strong>Remarks:</strong> {{ appointment.remarks }}</p>
+        {% if appointment.prescription %}
+            <div class="prescription">
+                <strong>Prescription:</strong>
+                <a href="{{ appointment.prescription.url }}" target="_blank">View Prescription</a>
+            </div>
+        {% else %}
+            <p><strong>Prescription:</strong> No prescription uploaded.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -458,3 +458,9 @@ def appointment_details(request, appointment_id):
         return redirect('active_appointments')
     
     return render(request, 'appointment_details.html', {'appointment': appointment})
+
+
+@login_required
+def ongoing_treatment(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    return render(request, 'ongoing_treatment.html', {'appointment': appointment})
