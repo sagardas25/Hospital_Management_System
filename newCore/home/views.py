@@ -260,6 +260,20 @@ def view_appointments_patient(request):
     return render(request, 'view_appointments_patient.html', {'appointments': appointments}) 
 
 
+
+@login_required
+def active_appointments_patient(request):
+    patient = request.user.patient
+    appointments = Appointment.objects.filter(patient=patient, status='accepted')
+    return render(request, 'active_appointments_patient.html', {'appointments': appointments})
+
+@login_required
+def appointment_details_patient(request, appointment_id):
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+    return render(request, 'appointment_details_patient.html', {'appointment': appointment})
+
+
+
 #################################################################################################################################
 
 
