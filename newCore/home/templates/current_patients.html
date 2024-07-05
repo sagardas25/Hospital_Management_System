@@ -57,7 +57,7 @@
                         <h2><strong>Name : </strong>{{ patient.full_name }}</h2>
                         <p><strong>Address:</strong> {{ patient.address }}</p>
                         <p><strong>Mobile Number:</strong> {{ patient.mobile_number }}</p>
-                        <a class="view-details" href="{% url 'patient_details' patient.id %}">View Details</a>
+                        <a class="view-details" href="{% url 'patient_details' patient.id %}">View History</a>
                     </div>
                 {% endfor %}
 

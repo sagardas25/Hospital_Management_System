@@ -86,6 +86,29 @@
         }
 
 
+        .logout-btn {
+            width: 100%;
+            margin-top: 15%;
+            position: relative;
+            top: 25%;
+        }
+
+        .logout-btn a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            padding: 4%;
+            background: #c55a5a;
+            border-radius: 4px;
+        }
+
+        .logout-btn a:hover {
+            background: #8a3333;
+        }
+
+
 
     </style>
 
@@ -117,6 +140,12 @@
         <p><a href="{% url 'update_profile_patient' %}">Update Profile</a></p>
         <p><a href="{% url 'view_appointments_patient' %}">Your Appointments</a></p> 
         <p><a href="{% url 'active_appointments_patient' %}">Active Appointments</a></p>
+        
+    </div>
+
+    <div class="logout-btn">
+
+        <p><a href="{% url 'button2' %}">Logout</a></p>
         
     </div>
 

@@ -27,8 +27,40 @@
             margin-bottom: 20px;
         }
 
+        .filter-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-section label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .filter-section select {
+            padding: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        .filter-section button {
+            padding: 5px 10px;
+            border-radius: 4px;
+            border: none;
+            background-color: #387f4a;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .filter-section button:hover {
+            background-color: #2d653a;
+        }
+
         .appointment {
             padding: 15px 0;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .appointment:last-child {
@@ -40,38 +72,41 @@
         }
 
         .status {
-            padding: 0px 10px;
+            padding: 2px 10px;
             border-radius: 5px;
             color: #fff;
             display: inline-block;
+            font-weight: 600;
         }
 
         .status.pending {
             color: #f0ad4e;
-            font-weight: 600;
         }
 
         .status.accepted {
             color: #5cb85c;
-            font-weight: 600;
         }
 
         .status.rejected {
-           color: #d9534f;
-           font-weight: 600;
-        }
-
-        hr {
-            border: 0;
-            height: 1px;
-            background: #e0e0e0;
-            margin: 15px 0;
+            color: #ff0800;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>Your Appointments</h1>
+    <div class="filter-section">
+        <form method="get" action="{% url 'view_appointments_patient' %}">
+            <label for="status">Select Status:</label>
+            <select name="status" id="status">
+                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                <option value="accepted" {% if status_filter == 'accepted' %}selected{% endif %}>Accepted</option>
+                <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+            </select>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
     {% if appointments %}
         {% for appointment in appointments %}
             <div class="appointment">
@@ -80,11 +115,8 @@
                 <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
                 <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
                 <p><strong>Contact:</strong> {{ appointment.doctor.mobile_number }}</p>
-                <p><strong>Status:</strong> <span class="status {{ appointment.status }}">{{ appointment.status }}</span></p>
+                <p><strong>Status:</strong><span class="status {{ appointment.status }}">{{ appointment.status }}</span></p>
             </div>
-            {% if not forloop.last %}
-                <hr>
-            {% endif %}
         {% endfor %}
     {% else %}
         <p>You have no appointments booked.</p>

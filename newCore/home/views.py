@@ -251,13 +251,32 @@ def confirm_booking(request, doctor_id, timeslot_id):
     return render(request, 'booking_confirmation.html', {'timeslot': timeslot})
 
 
+# @login_required
+# def view_appointments_patient(request):
 
+#     patient = Patient.objects.get(user=request.user)
+
+#     appointments = Appointment.objects.filter(patient=patient).order_by('date', 'time_slot__start_time')
+#     return render(request, 'view_appointments_patient.html', {'appointments': appointments}) 
+
+
+@login_required
 def view_appointments_patient(request):
 
     patient = Patient.objects.get(user=request.user)
+    status_filter = request.GET.get('status', 'all')
+    
+    if status_filter == 'pending':
+        appointments = Appointment.objects.filter(patient=patient, status='pending')
+    elif status_filter == 'accepted':
+        appointments = Appointment.objects.filter(patient=patient, status='accepted')
+    elif status_filter == 'rejected':
+        appointments = Appointment.objects.filter(patient=patient, status='rejected')
+    else:
+        appointments = Appointment.objects.filter(patient=patient)
+    
+    return render(request, 'view_appointments_patient.html', {'appointments': appointments, 'status_filter': status_filter})
 
-    appointments = Appointment.objects.filter(patient=patient).order_by('date', 'time_slot__start_time')
-    return render(request, 'view_appointments_patient.html', {'appointments': appointments}) 
 
 
 
@@ -266,6 +285,8 @@ def active_appointments_patient(request):
     patient = request.user.patient
     appointments = Appointment.objects.filter(patient=patient, status='accepted')
     return render(request, 'active_appointments_patient.html', {'appointments': appointments})
+
+
 
 @login_required
 def appointment_details_patient(request, appointment_id):
