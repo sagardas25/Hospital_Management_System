@@ -206,10 +206,6 @@ def book_appointment(request, doctor_id):
 
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Doctor, TimeSlot, Patient, Appointment
-
 @login_required
 def book_appointment(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)

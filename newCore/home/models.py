@@ -80,6 +80,9 @@ class Appointment(models.Model):
     time_slot = models.ForeignKey(TimeSlot, on_delete=models.CASCADE)
     date = models.DateField()
     remarks = models.TextField(blank=True, null=True)
+    feedback = models.TextField(blank=True, null=True) 
     prescription = models.FileField(upload_to='prescriptions/', blank=True, null=True)
     status = models.CharField(max_length=10, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')])
 
+    def __str__(self):
+        return f"Appointment {self.pk} - {self.patient.full_name} with {self.doctor.full_name}"
