@@ -11,10 +11,49 @@
             padding: 20px;
             background-color: #f9f9f9;
         }
+
+
+        .main {
+
+            display: flex;
+
+                }
+
+
+        .panel{
+
+            position: fixed;
+
+                }
+
+        .section {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2%;
+            width: 100vw;
+
+                }
+
+
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 1%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 4%;
+            padding-top: 1%;
+            margin-bottom: 2%;
+            width: 50vw;
+            position: relative;
+            left: 9%;
+            top: 2%;
+            background-color: rgb(244, 246, 248);
+            }
+
+
         .appointment-card {
             background-color: #ffffff;
             border: 1px solid #ddd;
@@ -48,28 +87,46 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Active Appointments</h1>
-        {% if appointments %}
 
-            {% for appointment in appointments %}
-                <div class="appointment-card">
-                    <h2><strong>Doctor:</strong> {{ appointment.doctor.full_name }}</h2>
-                    <p><strong>Date:</strong> {{ appointment.date }}</p>
-                    <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
-                    <p><strong>Date:</strong> {{ appointment.doctor.department }}</p>
-                    <p><strong>Date:</strong> {{ appointment.doctor.mobile_number }}</p>
-                    <a class="view-details" href="{% url 'appointment_details_patient' appointment.id %}">View Details</a>
-                </div>
-            {% endfor %}
+<div class="main">
 
-        {% else %}
-                <div class="appointment-card">
-                    <P>You have no current active appointments !</P>
-                </div>
+    <div class="panel">
 
-        {% endif %}
+        {% include 'patient_sidepanel.html' %}
         
     </div>
+
+
+    <div class="section">
+
+
+            <div class="container">
+                <h1>Active Appointments</h1>
+                {% if appointments %}
+
+                    {% for appointment in appointments %}
+                        <div class="appointment-card">
+                            <h2><strong>Doctor:</strong> {{ appointment.doctor.full_name }}</h2>
+                            <p><strong>Date:</strong> {{ appointment.date }}</p>
+                            <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+                            <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
+                            <p><strong>Mobile Number:</strong> {{ appointment.doctor.mobile_number }}</p>
+                            <a class="view-details" href="{% url 'appointment_details_patient' appointment.id %}">View Details</a>
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+                        <div class="appointment-card">
+                            <P>You have no current active appointments !</P>
+                        </div>
+
+                {% endif %}
+                
+            </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

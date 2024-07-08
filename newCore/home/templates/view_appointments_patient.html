@@ -9,22 +9,59 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2;
         } 
 
+
+        .main {
+
+            display: flex;
+
+                }
+
+
+        .panel{
+
+            position: fixed;
+
+                }
+
+        .section {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2%;
+            width: 100vw;
+
+                }
+
+
         .container {
-            width: 60%;
-            margin: 40px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 1%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 4%;
+            padding-top: 1%;
+            margin-bottom: 2%;
+            width: 50vw;
+            position: relative;
+            left: 11%;
+            top: -3%;
+            background-color: rgb(244, 246, 248);
+            }
+
+
+        option{
+            font-weight: bold;
         }
+
 
         h1 {
             color: #333;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .filter-section {
@@ -93,34 +130,51 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Your Appointments</h1>
-    <div class="filter-section">
-        <form method="get" action="{% url 'view_appointments_patient' %}">
-            <label for="status">Select Status:</label>
-            <select name="status" id="status">
-                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
-                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
-                <option value="accepted" {% if status_filter == 'accepted' %}selected{% endif %}>Accepted</option>
-                <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
-            </select>
-            <button type="submit">Filter</button>
-        </form>
+
+<div class="main">
+
+    <div class="panel">
+
+        {% include 'patient_sidepanel.html' %}
+
     </div>
-    {% if appointments %}
-        {% for appointment in appointments %}
-            <div class="appointment">
-                <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.full_name }}</p>
-                <p><strong>Date:</strong> {{ appointment.date }}</p>
-                <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
-                <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
-                <p><strong>Contact:</strong> {{ appointment.doctor.mobile_number }}</p>
-                <p><strong>Status:</strong><span class="status {{ appointment.status }}">{{ appointment.status }}</span></p>
+
+    <div class="section">
+
+
+            <div class="container">
+                <h1>Your Appointments</h1>
+                <div class="filter-section">
+                    <form method="get" action="{% url 'view_appointments_patient' %}">
+                        <label for="status">Select Status:</label>
+                        <select name="status" id="status">
+                            <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+                            <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="accepted" {% if status_filter == 'accepted' %}selected{% endif %}>Accepted</option>
+                            <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+                        </select>
+                        <button type="submit">Filter</button>
+                    </form>
+                </div>
+                {% if appointments %}
+                    {% for appointment in appointments %}
+                        <div class="appointment">
+                            <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.full_name }}</p>
+                            <p><strong>Date:</strong> {{ appointment.date }}</p>
+                            <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+                            <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
+                            <p><strong>Contact:</strong> {{ appointment.doctor.mobile_number }}</p>
+                            <p><strong>Status:</strong><span class="status {{ appointment.status }}">{{ appointment.status }}</span></p>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>You have no appointments booked.</p>
+                {% endif %}
             </div>
-        {% endfor %}
-    {% else %}
-        <p>You have no appointments booked.</p>
-    {% endif %}
+
+    </div>
+
 </div>
+
 </body>
 </html>

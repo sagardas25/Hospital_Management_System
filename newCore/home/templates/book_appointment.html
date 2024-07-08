@@ -9,8 +9,8 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
         }
+
         .container {
             width: 60%;
             margin: 50px auto;
@@ -20,10 +20,51 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
+
+        .main {
+
+            display: flex;
+
+                }
+
+
+        .panel{
+
+            position: fixed;
+
+                }
+
+        .section {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2%;
+            width: 100vw;
+            height: 91vh;
+
+                }
+
+
+        .container {
+            border: 1px solid #ddd;
+            border-radius: 1%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1% 4%;
+            margin-bottom: 2%;
+            width: 47vw;
+            position: relative;
+            left: 11%;
+            }
+
+
         h1 {
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
         }
+
         .slot {
             margin-bottom: 20px;
             text-align: left;
@@ -42,22 +83,27 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
+            outline: none;
+            resize: none;
+            background-color: whitesmoke;
         }
         .book-button {
             background-color: #387f4a;
             color: white;
-            padding: 12px 25px;
+            padding: 8px 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            margin-top: 20px;
+            font-weight: bold;
+            margin-top: 3px;
         }
         .book-button:hover {
             background-color: #2d653a;
         }
         .doctor-info {
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            margin-top: 2px;
             text-align: left;
         }
         .doctor-info p {
@@ -68,7 +114,7 @@
             height: 100px;
             border-radius: 50%;
             overflow: hidden;
-            margin: 0 auto 20px;
+            margin: 0 0px 0px 10px;
             border: 3px solid #387f4a;
         }
         .profile-pic img {
@@ -79,46 +125,64 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Book Appointment</h1>
 
-    <div class="profile-pic">
-        {% if doctor.profile_pic %}
-            <img src="{{ doctor.profile_pic.url }}" alt="Profile Picture">
-        {% else %}
-            <img src="/path/to/default/image.jpg" alt="Profile Picture">
-        {% endif %}
+<div class="main">
+
+
+    <div class="panel">
+
+        {% include 'patient_sidepanel.html' %}
+
     </div>
 
-    <div class="doctor-info">
-        <p><strong>Name:</strong> {{ doctor.full_name }}</p>
-        <p><strong>Department:</strong> {{ doctor.department }}</p>
-        <p><strong>Contact Information:</strong> {{ doctor.mobile_number }}</p>
+    <div class="section">
+
+
+        <div class="container">
+            <h1>Book Appointment</h1>
+
+            <div class="profile-pic">
+                {% if doctor.profile_pic %}
+                    <img src="{{ doctor.profile_pic.url }}" alt="Profile Picture">
+                {% else %}
+                    <img src="/path/to/default/image.jpg" alt="Profile Picture">
+                {% endif %}
+            </div>
+
+            <div class="doctor-info">
+                <p><strong>Name:</strong> {{ doctor.full_name }}</p>
+                <p><strong>Department:</strong> {{ doctor.department }}</p>
+                <p><strong>Contact Information:</strong> {{ doctor.mobile_number }}</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="slot">
+                    <label for="slot_id">Select Time Slot:</label>
+                    <select name="slot_id" id="slot_id" required>
+                        {% for slot in slots %}
+                            <option value="{{ slot.id }}">{{ slot.date }} - {{ slot.start_time }} to {{ slot.end_time }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="slot">
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" required>
+                </div>
+
+                <div class="slot">
+                    <label for="describe_problem">Describe Problem Briefly :</label>
+                    <textarea id="describe_problem" name="describe_problem" rows="4" required></textarea>
+                </div>
+
+                <button type="submit" class="book-button">Book Appointment</button>
+            </form>
+        </div>
+
     </div>
 
-    <form method="post">
-        {% csrf_token %}
-        <div class="slot">
-            <label for="slot_id">Select Time Slot:</label>
-            <select name="slot_id" id="slot_id" required>
-                {% for slot in slots %}
-                    <option value="{{ slot.id }}">{{ slot.date }} - {{ slot.start_time }} to {{ slot.end_time }}</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="slot">
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required>
-        </div>
-
-        <div class="slot">
-            <label for="describe_problem">Describe Problem:</label>
-            <textarea id="describe_problem" name="describe_problem" rows="4" required></textarea>
-        </div>
-
-        <button type="submit" class="book-button">Book Appointment</button>
-    </form>
 </div>
+
 </body>
 </html>

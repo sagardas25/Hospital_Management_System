@@ -24,6 +24,7 @@ urlpatterns = [
     path('add_profile/', views.add_profile, name='add_profile'),
     path('update_profile/', views.update_profile, name='update_profile'),
     path('update_profile_patient/', views.update_profile_patient, name='update_profile_patient'),
+    path('add_profile_patient/', views.add_profile_patient, name='add_profile_patient'),
 
     path('book-appointment/<int:doctor_id>/', views.book_appointment, name='book_appointment'),
     path('confirm-booking/<int:doctor_id>/<int:timeslot_id>/', views.confirm_booking, name='confirm_booking'),

@@ -23,17 +23,20 @@
             display: flex;
             justify-content: center;
             align-items:center ;
+            height: 100vh;
 
 
         }
         
 
         .content {
+
             background-color: #fff;
             width: 45vw;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 1%;
             padding-bottom: 1.5%;
+            position: relative;
             
 
         }
@@ -118,7 +121,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
             left: 9%;
-            top: 9vh;
+            top: -1%;
             padding: 3%;
 
 
@@ -132,7 +135,10 @@
             justify-content: center;
             padding: 2% 0px;
             width: 100vw;
+            height: 90vh;
         }
+
+        
 
 
     </style>
@@ -145,17 +151,21 @@
 
 
 
-<div class="panel">
+    {% if user.patient.full_name %}
+
+        <div class="panel">
 
              {% include 'patient_sidepanel.html' %}
 
-</div>
+        </div>
+
+    {% endif %}
 
 
 
-<div class="main main_sec" >
+<div class="main {% if user.patient.full_name %}main_sec{% endif %}" >
 
- <div class="content content_sec"  >
+    <div class="content  {% if user.patient.full_name %}content_sec{% endif %}"  >
 
     {% if user.patient.full_name %}
         <h1>Update Profile</h1>

@@ -75,7 +75,7 @@ def signup(request):
                     return redirect('add_profile')
                 
                 elif user.role == 'patient' :
-                    return redirect('update_profile_patient')
+                    return redirect('add_profile_patient')
 
                 else :
 
@@ -91,13 +91,14 @@ def signup(request):
 
 
 # logout view
+@login_required
 def logout_user(request):
     logout(request)
     return redirect('home')
 
 
 
-
+@never_cache
 @login_required
 def dashboard(request):
     user = request.user 
@@ -118,13 +119,13 @@ def dashboard(request):
 #########################################################################################################################
 
 # patient related views
-
+@never_cache
 @login_required
 def patient_dashboard(request):
     return render(request, 'dashboard.html')
 
-
-
+@never_cache
+@login_required
 def available_doctors(request):
     if request.user.role != 'patient':
         return redirect('home')
@@ -174,41 +175,46 @@ def update_profile_patient(request):
     return render(request, 'update_profile_patient.html', {'patient_profile_form': patient_profile_form,})
 
 
-
+@never_cache
 @login_required
-def book_appointment(request, doctor_id):
-    doctor = get_object_or_404(Doctor, id=doctor_id)
-    slots = TimeSlot.objects.filter(doctor=doctor, booked=False).order_by('date', 'start_time')
+def add_profile_patient(request):
+
     
-    if request.method == 'POST':
+    if request.user.patient.full_name :
+         return redirect ('home')
         
-        timeslot_id = request.POST.get('slot_id')
-        timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
-        patient = get_object_or_404(Patient, user=request.user)  # Ensure we get the Patient instance
 
-        timeslot.booked = True
-        timeslot.patient = patient  # Assign the Patient instance
-        timeslot.save()
+    try:
+        patient = Patient.objects.get(user=request.user)
 
-        # Create an appointment when booking a timeslot
-        appointment = Appointment.objects.create(
-            patient=patient,
-            doctor=doctor,
-            time_slot=timeslot,
-            date=timeslot.date,
-            status='pending'  # Set status to pending
-          )
+    except Patient.DoesNotExist:
 
+        # messages.error(request, 'You are not authorized to view this page.')
+        return redirect('home')
+    
 
+    if request.method == 'POST':
+        patient_profile_form = PatientProfileForm(request.POST, request.FILES, instance=patient)  
 
-        return redirect('confirm_booking', doctor_id=doctor.id, timeslot_id=timeslot.id)
-
-    return render(request, 'book_appointment.html', {'doctor': doctor, 'slots': slots})
+        if patient_profile_form.is_valid():
+            patient_profile_form.save()
+            # messages.success(request, 'Profile updated successfully.')
+            return redirect('home')
 
 
+    else:
+
+        patient_profile_form = PatientProfileForm(instance=patient)
+
+
+    return render(request, 'update_profile_patient.html', {'patient_profile_form': patient_profile_form,})
 
 
 
+
+
+
+@never_cache
 @login_required
 def book_appointment(request, doctor_id):
     doctor = get_object_or_404(Doctor, id=doctor_id)
@@ -234,7 +240,7 @@ def book_appointment(request, doctor_id):
             doctor=doctor,
             time_slot=timeslot,
             date=timeslot.date,
-            age = age,
+            patient_age = age,
             describe_problem= describe_problem,
             status='pending'  # Set status to pending
         )
@@ -248,12 +254,14 @@ def book_appointment(request, doctor_id):
 
 
 
+@never_cache
 @login_required
 def confirm_booking(request, doctor_id, timeslot_id):
     timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
     return render(request, 'booking_confirmation.html', {'timeslot': timeslot})
 
 
+@never_cache
 @login_required
 def view_appointments_patient(request):
 
@@ -273,7 +281,7 @@ def view_appointments_patient(request):
 
 
 
-
+@never_cache
 @login_required
 def active_appointments_patient(request):
     patient = request.user.patient
@@ -281,13 +289,16 @@ def active_appointments_patient(request):
     return render(request, 'active_appointments_patient.html', {'appointments': appointments})
 
 
-
+@never_cache
 @login_required
 def appointment_details_patient(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    feedback = request.POST.get('feedback')
-    appointment.feedback = feedback
-    appointment.save()
+
+    if request.method == 'POST' :
+        feedback = request.POST.get('feedback')
+        appointment.feedback = feedback
+        appointment.save()
+
     return render(request, 'appointment_details_patient.html', {'appointment': appointment})
 
 
@@ -352,7 +363,8 @@ def add_availability(request):
 
 
 
-
+@never_cache
+@login_required
 def get_next_weekday(start_date, weekday):
     days_ahead = weekday - start_date.weekday()
     if days_ahead <= 0: # Target day already happened this week
@@ -360,7 +372,7 @@ def get_next_weekday(start_date, weekday):
     return start_date + timedelta(days=days_ahead)
 
 
-
+@never_cache
 @login_required
 def delete_time_slot(request, slot_id):
     time_slot = get_object_or_404(TimeSlot, id=slot_id)
@@ -377,8 +389,6 @@ def delete_time_slot(request, slot_id):
 @login_required
 def add_profile(request):
 
-    # if request.user.doctor.full_name :
-    #     return redirect ('home')
     
     if request.user.doctor.full_name :
          return redirect ('home')
@@ -444,7 +454,8 @@ def update_profile(request):
 
 
 
-
+@never_cache
+@login_required
 def view_appointments_doctor(request):
     if request.method == "POST":
         appointment_id = request.POST.get('appointment_id')
@@ -465,7 +476,7 @@ def view_appointments_doctor(request):
     return render(request, 'view_appointments_doctor.html', {'appointments': pending_appointments})
 
 
-
+@never_cache
 @login_required
 def active_appointments(request):
     doctor = request.user.doctor 
@@ -473,7 +484,7 @@ def active_appointments(request):
     return render(request, 'active_appointments.html', {'appointments': appointments})
 
 
-
+@never_cache
 @login_required
 def appointment_details(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -484,13 +495,13 @@ def appointment_details(request, appointment_id):
         if prescription:
             appointment.prescription = prescription
         appointment.remarks = remarks
-        appointment.save()
+        appointment.save() 
 
         return redirect('active_appointments')
     
     return render(request, 'appointment_details.html', {'appointment': appointment})
 
-
+@never_cache
 @login_required
 def ongoing_treatment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
@@ -498,6 +509,7 @@ def ongoing_treatment(request, appointment_id):
 
 
 
+@never_cache
 @login_required
 def current_patients(request):
     doctor = request.user.doctor
@@ -506,6 +518,7 @@ def current_patients(request):
     
     return render(request, 'current_patients.html', {'patients': patients})
 
+@never_cache
 @login_required
 def patient_details(request, patient_id):
     doctor = request.user.doctor

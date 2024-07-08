@@ -44,6 +44,7 @@
             width: 50vw;
             position: relative;
             left: 9%;
+            top: -19%;
         }
 
         .appointment-list > h2 {
@@ -114,6 +115,8 @@
                             {% for appointment in appointments %}
                                 <div class="appointment">
                                     <p><strong>Patient:</strong> {{ appointment.patient.full_name }}</p>
+                                    <p><strong>Age:</strong> {{ appointment.patient_age }}</p>
+                                    <p><strong>Problem:</strong> {{ appointment.describe_problem }}</p>
                                     <p><strong>Date:</strong> {{ appointment.date }}</p>
                                     <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
                                     <form method="post" style="display:inline;">
