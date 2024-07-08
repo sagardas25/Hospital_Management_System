@@ -12,27 +12,68 @@
             padding: 20px;
             background-color: #f9f9f9;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+
+        .main {
+
+            display: flex;
+
+            }
+
+
+        .panel{
+            position: fixed;
         }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2%;
+            width: 100vw;
+            }
+
+
+        .container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 1%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 4%;
+            margin-bottom: 2%;
+            width: 45vw;
+            position: relative;
+            left: 9%;
+            background-color: rgb(244, 246, 248);
+           
+        }
+
         .appointment-card {
-            background-color: #ffffff;
+            background-color: rgb(244, 246, 248);
             border: 1px solid #ddd;
             border-radius: 8px;
             padding: 16px;
             margin-bottom: 16px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
         }
+
         .appointment-card h2 {
             margin: 0;
             font-size: 1.2em;
             color: #333;
         }
+
         .appointment-card p {
             margin: 8px 0;
             color: #666;
         }
+
+        .container > h1 {
+            margin: 0px;
+            margin-bottom: 5%;
+        }
+
         .view-details  , .ongoing-treatment{
             display: inline-block;
             margin-top: 8px;
@@ -43,34 +84,50 @@
             border-radius: 4px;
             transition: background-color 0.3s;
         }
+
         .view-details:hover , .ongoing-treatment:hover{
             background-color: #2d653a;
         }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Active Appointments</h1>
 
-        {% if appointments %}
-                {% for appointment in appointments %}
-                    <div class="appointment-card">
-                        <h2><strong>Patient:</strong> {{ appointment.patient.full_name }}</h2>
-                        <p><strong>Date:</strong> {{ appointment.date }}</p>
-                        <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
-                        <a class="view-details" href="{% url 'appointment_details' appointment.id %}">View Details</a>
-                        <a class="ongoing-treatment" href="{% url 'ongoing_treatment' appointment.id %}">Ongoing Treatment</a>
-                    </div>
-                {% endfor %}
+<div class="main">
 
-        {% else %}
-                    <div class="appointment-card">
-                        <p><strong> You have no pending appointments !! </strong></p>
-                    </div>
+    <div class="panel">
 
-        {% endif %}
+        {% include 'doctor_sidepanel.html' %}
 
-                    
     </div>
+
+    <div class="section">
+
+            <div class="container">
+                <h1>Active Appointments</h1>
+
+                {% if appointments %}
+                        {% for appointment in appointments %}
+                            <div class="appointment-card">
+                                <h2><strong>Patient:</strong> {{ appointment.patient.full_name }}</h2>
+                                <p><strong>Date:</strong> {{ appointment.date }}</p>
+                                <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+                                <a class="view-details" href="{% url 'appointment_details' appointment.id %}">View Details</a>
+                                <a class="ongoing-treatment" href="{% url 'ongoing_treatment' appointment.id %}">Ongoing Treatment</a>
+                            </div>
+                        {% endfor %}
+
+                {% else %}
+                            <div class="appointment-card">
+                                <p><strong> You have no pending appointments !! </strong></p>
+                            </div>
+
+                {% endif %}
+                            
+            </div>
+    </div>
+
+</div>
+
 </body>
 </html>

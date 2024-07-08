@@ -11,10 +11,50 @@
             padding: 20px;
             background-color: #f9f9f9;
         }
+
+
+
+
+        .main {
+
+            display: flex;
+
+                }
+
+
+        .panel{
+
+            position: fixed;
+
+                }
+
+        .section {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2%;
+            width: 100vw;
+
+                }
+
+
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 1%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 4%;
+            margin-bottom: 2%;
+            width: 50vw;
+            position: relative;
+            left: 11%;
+            top: 5%;
+            background-color: rgb(244, 246, 248);
         }
+
+
         .appointment-card {
             background-color: #ffffff;
             border: 1px solid #ddd;
@@ -32,41 +72,66 @@
             margin: 8px 0;
             color: #666;
         }
+
+        strong {
+            color: black;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
 
-        <h1>Patient Details</h1>
-        <h2><strong>Name : </strong>{{ patient.full_name }}</h2>
-
-        {% for appointment in appointments %}
-        
-            <div class="appointment-card">
-                <p><strong>Date:</strong> {{ appointment.date }}</p>
-                <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
-
-                {% if appointment.prescription %}
-
-                    <div class="prescription">
-                        <strong>Prescription:</strong>
-                        <a href="{{ appointment.prescription.url }}" target="_blank">View Prescription</a>
-                    </div>
-
-                {% else %}
-
-                     <p><strong>Prescription:</strong> No prescription uploaded.</p> 
-
-                {% endif %}
-
-                <p><strong>Doctor Remarks:</strong> {{ appointment.remarks }}</p>
-                <P><strong>Patient Feedback:</strong> {{appointment.feedback}}</P>
-
-            </div>
-        {% endfor %}
+<div class="main">
 
 
+    <div class="panel">
+
+        {% include 'doctor_sidepanel.html' %}
 
     </div>
+
+
+
+    <div class="section">
+
+            <div class="container">
+
+                <h1>Patient Details</h1>
+                <h2><strong>Name : </strong>{{ patient.full_name }}</h2>
+
+                {% for appointment in appointments %}
+                
+                    <div class="appointment-card">
+                        <p><strong>Date:</strong> {{ appointment.date }}</p>
+                        <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+
+                        {% if appointment.prescription %}
+
+                            <div class="prescription">
+                                <strong>Prescription:</strong>
+                                <a href="{{ appointment.prescription.url }}" target="_blank">View Prescription</a>
+                            </div>
+
+                        {% else %}
+
+                            <p><strong>Prescription:</strong> No prescription uploaded.</p> 
+
+                        {% endif %}
+                        <p><strong>Patient Age:</strong> {{ appointment.patient_age }}</p>
+                        <p><strong>Problems :</strong> {{ appointment.describe_problem }}</p>
+                        <p><strong>Doctor Remarks:</strong> {{ appointment.remarks }}</p>
+                        <P><strong>Patient Feedback:</strong> {{appointment.feedback}}</P>
+
+                    </div>
+                {% endfor %}
+
+
+
+            </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

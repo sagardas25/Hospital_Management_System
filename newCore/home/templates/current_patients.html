@@ -9,12 +9,49 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f9f9f9;
         }
+
+
+        .main {
+
+            display: flex;
+
+                }
+
+
+        .panel{
+
+            position: fixed;
+
+                }
+
+        .section {
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2%;
+            width: 100vw;
+
+                }
+
+
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 1%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 4%;
+            margin-bottom: 2%;
+            width: 45vw;
+            position: relative;
+            left: 9%;
+            top: 5%;
+            background-color: rgb(244, 246, 248);
         }
+
+
         .patient-card {
             background-color: #ffffff;
             border: 1px solid #ddd;
@@ -35,11 +72,12 @@
         .view-details {
             display: inline-block;
             margin-top: 8px;
-            padding: 10px 16px;
+            padding: 7px 10px;
             background-color: #387f4a;
             color: #ffffff;
             text-decoration: none;
             border-radius: 4px;
+            font-weight: bold;
             transition: background-color 0.3s;
         }
         .view-details:hover {
@@ -48,26 +86,42 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Current Patients</h1>
 
-        {% if patients %}
-                {% for patient in patients %}
-                    <div class="patient-card">
-                        <h2><strong>Name : </strong>{{ patient.full_name }}</h2>
-                        <p><strong>Address:</strong> {{ patient.address }}</p>
-                        <p><strong>Mobile Number:</strong> {{ patient.mobile_number }}</p>
-                        <a class="view-details" href="{% url 'patient_details' patient.id %}">View History</a>
-                    </div>
-                {% endfor %}
+<div class="main">
 
-        {% else %}
+    <div class="panel">
 
-                    <div class="patient-card">
-                        <p>Currently you have no active patients !</p>
-                    </div>
+        {% include 'doctor_sidepanel.html' %}
 
-        {% endif %}
     </div>
+
+
+    <div class="section">
+
+            <div class="container">
+                <h1>Current Patients</h1>
+
+                {% if patients %}
+                        {% for patient in patients %}
+                            <div class="patient-card">
+                                <h2><strong>Name : </strong>{{ patient.full_name }}</h2>
+                                <p><strong>Address:</strong> {{ patient.address }}</p>
+                                <p><strong>Mobile Number:</strong> {{ patient.mobile_number }}</p>
+                                <a class="view-details" href="{% url 'patient_details' patient.id %}">View History</a>
+                            </div>
+                        {% endfor %}
+
+                {% else %}
+
+                            <div class="patient-card">
+                                <p>Currently you have no active patients !</p>
+                            </div>
+
+                {% endif %}
+            </div>
+    </div>
+
+</div>
+
 </body>
 </html>

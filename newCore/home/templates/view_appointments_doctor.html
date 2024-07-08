@@ -7,22 +7,54 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            margin: 0;
-            padding: 20px;
+            margin: 0px;
+            padding: 0px;
         }
 
+
+        .panel{
+            position: fixed;
+        }
+
+        .main {
+
+            display: flex;
+            
+              }
+
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2%;
+            width: 100vw;
+            height: 90vh;
+        }
+
+
         .appointment-list {
-            max-width: 600px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 1%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 4%;
+            margin-bottom: 2%;
+            width: 50vw;
+            position: relative;
+            left: 9%;
+        }
+
+        .appointment-list > h2 {
+            margin: 0px;
+            margin-bottom: 4%;
+            font-size: 28px;
         }
 
         .appointment {
             border-bottom: 1px solid #ddd;
-            padding: 10px 0;
+            padding:2% 1%;
         }
 
         .appointment:last-child {
@@ -31,49 +63,81 @@
 
         .appointment p {
             margin: 0;
-            padding: 0;
+            padding: 2px;
+
         }
 
         .appointment button {
             margin-top: 10px;
-            padding: 8px 12px;
+            padding: 1% 1%;
             background: #387f4a;
             color: #fff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-weight: bold;
+        }
+
+        .appointment button:hover {
+
+            background: #20582e;
+
         }
 
         .appointment button.reject {
             background: #b03a2e;
         }
+
+        .appointment button.reject:hover {
+            background: #772218;
+        }
+        
     </style>
 </head>
 <body>
 
-<div class="appointment-list">
-    <h2>Pending Appointments</h2>
-    {% if  appointments %}
-            {% for appointment in appointments %}
-                <div class="appointment">
-                    <p><strong>Patient:</strong> {{ appointment.patient.full_name }}</p>
-                    <p><strong>Date:</strong> {{ appointment.date }}</p>
-                    <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
-                    <form method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <input type="hidden" name="appointment_id" value="{{ appointment.id }}">
-                        <button type="submit" name="action" value="accept">Accept</button>
-                        <button type="submit" name="action" value="reject" class="reject">Reject</button>
-                    </form>
-                </div>
-            {% endfor %}
-    {% else %}
-        <div class="appointment">
-            <p><strong> You have no pending appointments !! </strong></p>
+    <div class="main">
+
+
+        <div class="panel">
+
+            {% include 'doctor_sidepanel.html' %}
+    
         </div>
 
-    {% endif %}
-</div>
+
+        <div class="section">
+
+                <div class="appointment-list">
+                    <h2>Pending Appointments</h2>
+                    {% if  appointments %}
+                            {% for appointment in appointments %}
+                                <div class="appointment">
+                                    <p><strong>Patient:</strong> {{ appointment.patient.full_name }}</p>
+                                    <p><strong>Date:</strong> {{ appointment.date }}</p>
+                                    <p><strong>Time Slot:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+                                    <form method="post" style="display:inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="appointment_id" value="{{ appointment.id }}">
+                                        <button type="submit" name="action" value="accept">Accept</button>
+                                        <button type="submit" name="action" value="reject" class="reject">Reject</button>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                    {% else %}
+                        <div class="appointment">
+                            <p><strong> You have no pending appointments !! </strong></p>
+                        </div>
+
+                    {% endif %}
+                </div>
+
+
+         </div>
+
+
+
+    </div>
 
 </body>
 </html>

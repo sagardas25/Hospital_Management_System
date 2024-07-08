@@ -8,17 +8,48 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f9f9f9;
+            padding: 0px;
+
         }
+
+        .main {
+
+            display: flex;
+
+            }
+
+
+        .panel{
+
+            position: fixed;
+
+            }
+
+        .section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2%;
+            width: 100vw;
+            }
+
+
+
         .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 8px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 1%;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 4%;
+            margin-bottom: 2%;
+            width: 45vw;
+            position: relative;
+            left: 9%;
+            top: 5%;
+            background-color: rgb(244, 246, 248);
         }
+
         h1 {
             font-size: 2em;
             margin-bottom: 16px;
@@ -58,29 +89,53 @@
         button:hover {
             background-color: #2d653a;
         }
+
+        strong {
+            color: black;
+        }
+        
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Appointment Details</h1>
-        <p><strong>Patient Name:</strong> {{ appointment.patient.full_name }}</p>
-        <p><strong>Patient Address:</strong> {{ appointment.patient.address }}</p>
-        <p><strong>Mobile Number:</strong> {{ appointment.patient.mobile_number }}</p>
-        <p><strong>Date:</strong> {{ appointment.date }}</p>
-        <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
-        
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div>
-                <label for="prescription"> <strong>Upload Prescription:</strong></label>
-                <input type="file" id="prescription" name="prescription"> 
-            </div>
-            <div>
-                <label for="remarks"><strong>Remarks:</strong></label>
-                <textarea id="remarks" name="remarks">{{ appointment.remarks }}</textarea> 
-            </div>
-            <button type="submit">Save</button>
-        </form>
+
+<div class="main">
+
+    <div class="panel">
+
+        {% include 'doctor_sidepanel.html' %}
+
     </div>
+
+
+    <div class="section">
+
+            <div class="container">
+                <h1>Appointment Details</h1>
+                <p><strong>Patient Name:</strong> {{ appointment.patient.full_name }}</p>
+                <p><strong>Patient Address:</strong> {{ appointment.patient.address }}</p>
+                <p><strong>Patient Age:</strong> {{ appointment.patient_age }}</p>
+                <p><strong>Problem:</strong> {{ appointment.describe_problem }}</p>
+                <p><strong>Mobile Number:</strong> {{ appointment.patient.mobile_number }}</p>
+                <p><strong>Date:</strong> {{ appointment.date }}</p>
+                <p><strong>Time:</strong> {{ appointment.time_slot.start_time }} - {{ appointment.time_slot.end_time }}</p>
+                
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <label for="prescription"> <strong>Upload Prescription:</strong></label>
+                        <input type="file" id="prescription" name="prescription"> 
+                    </div>
+                    <div>
+                        <label for="remarks"><strong>Remarks:</strong></label>
+                        <textarea id="remarks" name="remarks">{{ appointment.remarks }}</textarea> 
+                    </div>
+                    <button type="submit">Save</button>
+                </form>
+            </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

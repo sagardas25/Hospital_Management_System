@@ -82,6 +82,8 @@ class Appointment(models.Model):
     remarks = models.TextField(blank=True, null=True)
     feedback = models.TextField(blank=True, null=True) 
     prescription = models.FileField(upload_to='prescriptions/', blank=True, null=True)
+    patient_age = models.PositiveIntegerField(default=0)
+    describe_problem = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=10, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')])
 
     def __str__(self):

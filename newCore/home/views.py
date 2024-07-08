@@ -73,6 +73,9 @@ def signup(request):
 
                 if user.role == 'doctor':
                     return redirect('add_profile')
+                
+                elif user.role == 'patient' :
+                    return redirect('update_profile_patient')
 
                 else :
 
@@ -215,20 +218,24 @@ def book_appointment(request, doctor_id):
         timeslot_id = request.POST.get('slot_id')
         timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
         
-        # Ensure we get the Patient instance
-        patient = get_object_or_404(Patient, user=request.user)
 
-        # Update TimeSlot and create Appointment
+        patient = get_object_or_404(Patient, user=request.user)
+        age = request.POST['age']
+        describe_problem = request.POST['describe_problem']
+
+
         timeslot.booked = True
         timeslot.patient = patient
         timeslot.save()
 
-        # Create an appointment when booking a timeslot
+
         appointment = Appointment.objects.create(
             patient=patient,
             doctor=doctor,
             time_slot=timeslot,
             date=timeslot.date,
+            age = age,
+            describe_problem= describe_problem,
             status='pending'  # Set status to pending
         )
 
@@ -245,15 +252,6 @@ def book_appointment(request, doctor_id):
 def confirm_booking(request, doctor_id, timeslot_id):
     timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
     return render(request, 'booking_confirmation.html', {'timeslot': timeslot})
-
-
-# @login_required
-# def view_appointments_patient(request):
-
-#     patient = Patient.objects.get(user=request.user)
-
-#     appointments = Appointment.objects.filter(patient=patient).order_by('date', 'time_slot__start_time')
-#     return render(request, 'view_appointments_patient.html', {'appointments': appointments}) 
 
 
 @login_required
@@ -287,8 +285,10 @@ def active_appointments_patient(request):
 @login_required
 def appointment_details_patient(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
+    feedback = request.POST.get('feedback')
+    appointment.feedback = feedback
+    appointment.save()
     return render(request, 'appointment_details_patient.html', {'appointment': appointment})
-
 
 
 #################################################################################################################################
