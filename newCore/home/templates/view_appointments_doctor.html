@@ -44,7 +44,7 @@
             width: 50vw;
             position: relative;
             left: 9%;
-            top: -19%;
+            top: -8%;
         }
 
         .appointment-list > h2 {
@@ -123,7 +123,7 @@
                                         {% csrf_token %}
                                         <input type="hidden" name="appointment_id" value="{{ appointment.id }}">
                                         <button type="submit" name="action" value="accept">Accept</button>
-                                        <button type="submit" name="action" value="reject" class="reject">Reject</button>
+                                        <button type="submit" name="action" value="cancel" class="reject">Cancel</button>
                                     </form>
                                 </div>
                             {% endfor %}

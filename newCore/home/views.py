@@ -7,6 +7,7 @@ from django.contrib.auth.models import Group
 from .forms import CustomUserCreationForm 
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
 from . import forms
 from .models import Doctor, TimeSlot, CustomUser , Patient , Appointment
 from .forms import TimeSlotForm , DoctorProfileForm , PatientProfileForm
@@ -252,8 +253,6 @@ def book_appointment(request, doctor_id):
 
 
 
-
-
 @never_cache
 @login_required
 def confirm_booking(request, doctor_id, timeslot_id):
@@ -304,12 +303,11 @@ def appointment_details_patient(request, appointment_id):
 
 #################################################################################################################################
 
-
-
 # doctor related views
 
-@never_cache
+
 @login_required
+@never_cache 
 def add_availability(request):
     try:
         doctor = Doctor.objects.get(user=request.user,is_approved=True)
@@ -341,7 +339,7 @@ def add_availability(request):
 
 
 
-            return redirect('add_availability')
+            return redirect('add_availability') 
     else:
         form = TimeSlotForm()
 
@@ -363,13 +361,12 @@ def add_availability(request):
 
 
 
-@never_cache
-@login_required
 def get_next_weekday(start_date, weekday):
     days_ahead = weekday - start_date.weekday()
     if days_ahead <= 0: # Target day already happened this week
         days_ahead += 7
     return start_date + timedelta(days=days_ahead)
+
 
 
 @never_cache
@@ -526,3 +523,14 @@ def patient_details(request, patient_id):
     appointments = Appointment.objects.filter(doctor=doctor, patient=patient, status='accepted')
     
     return render(request, 'patient_details.html', {'patient': patient, 'appointments': appointments})
+
+
+def video_chat(request, room_name):
+    return render(request, 'videoChat.html', {'room_name': room_name})
+
+
+
+
+def view_doctor_profile(request, pk):
+    doctor = get_object_or_404(Doctor, pk=pk)
+    return render(request, 'doctor_profile.html', {'doctor': doctor})

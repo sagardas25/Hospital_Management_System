@@ -85,6 +85,7 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-weight: bold;
         }
         button:hover {
             background-color: #2d653a;
@@ -130,10 +131,19 @@
                         <textarea id="remarks" name="remarks">{{ appointment.remarks }}</textarea> 
                     </div>
                     <button type="submit">Save</button>
+                    <button type="button" id="joinRoomButton">Join Room</button>
                 </form>
             </div>
 
     </div>
+
+
+    <script>
+        document.getElementById('joinRoomButton').onclick = function() {
+            const roomName = "{{ appointment.id }}";  // Using the appointment ID as the room name
+            window.location.href = `/video_chat/${roomName}/`;
+        };
+    </script>
 
 </div>
 

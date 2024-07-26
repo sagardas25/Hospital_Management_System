@@ -27,12 +27,14 @@ SECRET_KEY = 'django-insecure-q#zc6(=e6l632rwd64cn6o!g$7&pi7%l%at&fv0)m6r+38xh)a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
+
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+  
 ]
 
 MIDDLEWARE = [
@@ -50,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'home.middlewares.NoCacheMiddleware'
 ]
 
 ROOT_URLCONF = 'newCore.urls'
@@ -70,7 +74,22 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'newCore.wsgi.application'
+#WSGI_APPLICATION = 'newCore.wsgi.application'
+ASGI_APPLICATION = 'newCore.asgi.application'
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
+
+
+
 
 
 # Database

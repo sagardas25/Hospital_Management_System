@@ -71,6 +71,8 @@
             padding: 20px;
             border-bottom: 1px solid #ddd;
             display: flex;
+            flex-direction: column;
+            gap: 1vh;
 
         }
         .doctor-name {
@@ -104,6 +106,25 @@
 
         }
 
+        .btns{
+
+            display: flex;
+
+        }
+
+        #view_proff{
+
+            width: 10vw;
+            position: relative;
+            left: -3px;
+        }
+
+        #book_btn{
+
+           position: relative;
+           left: -13px;
+
+        }
 
     </style>
 </head>
@@ -139,11 +160,17 @@
 
                  {% if doctor.full_name and doctor.department %}
                         <div class="doctor-section">
-                            <div class="doctor-name">Dr. {{ doctor.full_name }} - {{ doctor.department }}
-                                <form   method="get" action="{% url 'book_appointment' doctor.id %}">
+                            <div class="doctor-name">Dr. {{ doctor.full_name }} - {{ doctor.department }} </div>
+
+                            <div class="btns">
+                                <form   method="get" id="book_btn"  action="{% url 'book_appointment' doctor.id %}">
                                     <button id="book" type="submit">Book</button>
                                 </form>
+                                <form method="get" id="view_proff" action="{% url 'view_doctor_profile' doctor.id %}">
+                                    <button type="submit">View Profile</button>
+                                </form>
                             </div>
+                            
                         </div>
                  {% endif %}
             {% endfor %}

@@ -36,15 +36,23 @@ class Doctor(models.Model):
         full_name = models.CharField(max_length=100, blank=True, null=True)
         cv = models.FileField(upload_to='cvs/', blank=False, null=True) 
         mobile_number = models.CharField(max_length=15, blank=True, null=True)
+        qualification = models.CharField(blank=True, null=True)
         profile_pic = models.ImageField(upload_to='profile_pics/doctors/', blank=True, null=True)
         address = models.CharField(blank=True, null=True)
         is_approved = models.BooleanField(default=False)
 
 
-
-
         def __str__(self):
              return self.user.get_full_name()
+        
+        def save(self, *args, **kwargs):
+            if self.qualification:
+                 self.qualification = self.qualification.upper()
+            super(Doctor, self).save(*args, **kwargs)
+
+        
+
+
     
     
 

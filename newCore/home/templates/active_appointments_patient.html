@@ -71,7 +71,7 @@
             margin: 8px 0;
             color: #666;
         }
-        .view-details {
+        .view-details{
             display: inline-block;
             margin-top: 8px;
             padding: 10px 16px;
@@ -81,9 +81,25 @@
             border-radius: 4px;
             transition: background-color 0.3s;
         }
+
+        button {
+            margin-top: 8px;
+            padding: 10px 16px;
+            outline: none;
+            border: none;
+            background-color: #387f4a;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+
+        }
+
         .view-details:hover {
             background-color: #2d653a;
         }
+
+
     </style>
 </head>
 <body>
@@ -112,6 +128,7 @@
                             <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
                             <p><strong>Mobile Number:</strong> {{ appointment.doctor.mobile_number }}</p>
                             <a class="view-details" href="{% url 'appointment_details_patient' appointment.id %}">View Details</a>
+                            <button type="button" class="join-room" onclick="joinRoom('{{ appointment.id }}')">Join Room</button>
                         </div>
                     {% endfor %}
 
@@ -119,13 +136,18 @@
                         <div class="appointment-card">
                             <P>You have no current active appointments !</P>
                         </div>
-
                 {% endif %}
                 
             </div>
 
     </div>
 
+
+    <script>
+        function joinRoom(roomName) {
+            window.location.href = `/video_chat/${roomName}/`;
+        }
+    </script>
 </div>
 
 </body>

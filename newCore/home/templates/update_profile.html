@@ -49,6 +49,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            height: 80vh;
         }
 
         .form-group {
@@ -107,10 +108,12 @@
 
         .content_sec {
 
-            width: 48vw;
+            width: 42vw;
+            height: 95vh;
             margin: 0 auto;
             background: #fff;
-            padding: 20px;
+            padding: 5px;
+            padding-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
@@ -174,9 +177,13 @@
             {{ profile_form.department }}
         </div>
         <div class="form-group">
+            {{ profile_form.qualification.label_tag }}
+            {{ profile_form.qualification }}
+        </div>
+        <div class="form-group">
             <label for="cv">CV :</label>
             <input type="file" name="cv" id="id_cv">
-            <!-- {{ profile_form.cv }} -->
+         
         </div>
         <div class="form-group">
             {{ profile_form.mobile_number.label_tag }}
@@ -188,7 +195,6 @@
         </div>
         <div class="form-group">
             {{ profile_form.profile_pic.label_tag }}
-            <!-- {{ profile_form.profile_pic }} -->
             <input type="file" name="profile_pic" accept="image/*" id="id_profile_pic">
         </div>
         <div class="form-group update_btn">

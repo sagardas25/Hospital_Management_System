@@ -31,7 +31,7 @@ class CustomUserCreationForm(UserCreationForm):
 class DoctorProfileForm(forms.ModelForm):
     class Meta:
         model = Doctor
-        fields = ['full_name', 'department',  'cv', 'mobile_number', 'address','profile_pic']
+        fields = ['full_name', 'department',  'cv', 'mobile_number', 'qualification', 'address','profile_pic']
 
 
 
