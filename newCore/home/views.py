@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect ,get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect , HttpResponse
 from django.urls import reverse
 from django.contrib.auth import login,logout , authenticate
 from django.contrib import messages
@@ -525,12 +525,56 @@ def patient_details(request, patient_id):
     return render(request, 'patient_details.html', {'patient': patient, 'appointments': appointments})
 
 
-def video_chat(request, room_name):
-    return render(request, 'videoChat.html', {'room_name': room_name})
-
-
-
 
 def view_doctor_profile(request, pk):
     doctor = get_object_or_404(Doctor, pk=pk)
     return render(request, 'doctor_profile.html', {'doctor': doctor})
+
+
+#################################################################################################################
+
+
+
+from django.shortcuts import render
+from .models import Appointment
+
+
+
+
+
+
+import time
+from agora_token_builder import RtcTokenBuilder
+
+def generate_agora_token(channel_name, uid):
+    app_id = 'dad06a884da44221b2ee9b1c534ffb94'
+    app_certificate = '8ab623e51f2049989d9c27a0ae287378'
+    expiration_time_in_seconds = 3600
+    current_timestamp = int(time.time())
+    privilege_expired_ts = current_timestamp + expiration_time_in_seconds
+    role = 1  # RtcTokenBuilder.Role_Publisher
+    token = RtcTokenBuilder.buildTokenWithUid(app_id, app_certificate, channel_name, uid, role, privilege_expired_ts)
+    return token
+
+
+@login_required
+def video_chat(request, appointment_id ):
+
+    if request.user.is_authenticated:
+
+        user = request.user
+        appointment = Appointment.objects.get(id=appointment_id)
+        token = generate_agora_token(str(appointment.id), 0)  # 0 means the user has no specific UID
+
+        context = {
+            
+            'appointment': appointment,
+            'token': token,
+            'user':user,
+            'remote_user_fullname' : appointment.doctor.full_name if user.role == 'patient' else appointment.patient.full_name
+            
+            }
+        return render(request, 'video_chat.html', context = context)
+
+    else :
+        return HttpResponseRedirect('sec_home') 

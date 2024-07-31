@@ -41,14 +41,15 @@ urlpatterns = [
 
     path('current_patients/', views.current_patients, name='current_patients'),
     path('patient_details/<int:patient_id>/', views.patient_details, name='patient_details'),
-    path('video_chat/<str:room_name>/', views.video_chat, name='video_chat'),
-
-
+  
     path('doctor/<int:pk>/', views.view_doctor_profile, name='view_doctor_profile'),
+
+
+    path('video_chat/<int:appointment_id>/', views.video_chat, name='video_chat'),
+
 
 ]
 
-    
 
 
 if settings.DEBUG:

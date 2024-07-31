@@ -169,3 +169,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = 'home.CustomUser'
+
+
+
+
+AGORA_APP_ID = 'dad06a884da44221b2ee9b1c534ffb94'; 
+
+# settings.py
+
+AGORA_APP_ID = 'dad06a884da44221b2ee9b1c534ffb94'
+AGORA_APP_CERTIFICATE = '8ab623e51f2049989d9c27a0ae287378'

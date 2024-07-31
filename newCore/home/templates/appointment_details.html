@@ -132,6 +132,7 @@
                     </div>
                     <button type="submit">Save</button>
                     <button type="button" id="joinRoomButton">Join Room</button>
+
                 </form>
             </div>
 
@@ -140,12 +141,14 @@
 
     <script>
         document.getElementById('joinRoomButton').onclick = function() {
-            const roomName = "{{ appointment.id }}";  // Using the appointment ID as the room name
-            window.location.href = `/video_chat/${roomName}/`;
+            const roomName = "{{ appointment.id }}"; 
+            window.location.href = "{% url 'video_chat' appointment.id  %}"; 
         };
     </script>
+
 
 </div>
 
 </body>
 </html>
+

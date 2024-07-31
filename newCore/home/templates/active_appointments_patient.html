@@ -128,7 +128,9 @@
                             <p><strong>Department:</strong> {{ appointment.doctor.department }}</p>
                             <p><strong>Mobile Number:</strong> {{ appointment.doctor.mobile_number }}</p>
                             <a class="view-details" href="{% url 'appointment_details_patient' appointment.id %}">View Details</a>
-                            <button type="button" class="join-room" onclick="joinRoom('{{ appointment.id }}')">Join Room</button>
+                            <a class="view-details" href="{% url 'video_chat' appointment.id  %}">join room</a>
+                        
+                
                         </div>
                     {% endfor %}
 
@@ -143,11 +145,8 @@
     </div>
 
 
-    <script>
-        function joinRoom(roomName) {
-            window.location.href = `/video_chat/${roomName}/`;
-        }
-    </script>
+
+
 </div>
 
 </body>
