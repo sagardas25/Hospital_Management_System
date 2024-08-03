@@ -271,8 +271,8 @@ def view_appointments_patient(request):
         appointments = Appointment.objects.filter(patient=patient, status='pending')
     elif status_filter == 'accepted':
         appointments = Appointment.objects.filter(patient=patient, status='accepted')
-    elif status_filter == 'rejected':
-        appointments = Appointment.objects.filter(patient=patient, status='rejected')
+    elif status_filter == 'cancelled':
+        appointments = Appointment.objects.filter(patient=patient, status='cancelled')
     else:
         appointments = Appointment.objects.filter(patient=patient)
     
@@ -461,8 +461,8 @@ def view_appointments_doctor(request):
         
         if action == 'accept':
             appointment.status = 'accepted'
-        elif action == 'reject':
-            appointment.status = 'rejected'
+        elif action == 'cancel':
+            appointment.status = 'cancelled'
             appointment.time_slot.booked = False
             appointment.time_slot.save()
         

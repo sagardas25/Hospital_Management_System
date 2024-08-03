@@ -92,7 +92,7 @@ class Appointment(models.Model):
     prescription = models.FileField(upload_to='prescriptions/', blank=True, null=True)
     patient_age = models.PositiveIntegerField(default=0)
     describe_problem = models.TextField(blank=True, null=True)
-    status = models.CharField(max_length=10, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('rejected', 'Rejected')])
+    status = models.CharField(max_length=10, choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('cancelled', 'Cancelled')])
 
     def __str__(self):
         return f"Appointment {self.pk} - {self.patient.full_name} with {self.doctor.full_name}"

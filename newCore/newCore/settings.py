@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'newCore.wsgi.application'
+# WSGI_APPLICATION = 'newCore.wsgi.application'
 ASGI_APPLICATION = 'newCore.asgi.application'
 
 
@@ -111,7 +111,7 @@ DATABASES = {
         'NAME': 'database_1',
         'USER': 'sagar',
         'PASSWORD': 'hp1234',
-        'HOST': 'localhost',
+        'HOST': 'db', 
         'PORT': '5432',
     }
 }

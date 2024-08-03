@@ -124,7 +124,7 @@
             color: #5cb85c;
         }
 
-        .status.rejected {
+        .status.cancelled {
             color: #ff0800;
         }
     </style>
@@ -151,7 +151,7 @@
                             <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
                             <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
                             <option value="accepted" {% if status_filter == 'accepted' %}selected{% endif %}>Accepted</option>
-                            <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+                            <option value="cancelled" {% if status_filter == 'cancelled' %}selected{% endif %}>Cancelled</option>
                         </select>
                         <button type="submit">Filter</button>
                     </form>
@@ -168,7 +168,7 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p>You have no appointments booked.</p>
+                    <p>You have no appointments of this kind.</p>
                 {% endif %}
             </div>
 
