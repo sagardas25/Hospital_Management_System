@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dashboard</title>
+  </head>
+
+  <body>
+    {% if user.role == 'doctor' %}
+
+    <!-- <a href="{% url 'add_availability' %}">add availibility</a> -->
+    {% include 'doctor_sidepanel.html' %} {% elif user.role == 'patient' %}
+
+    <!-- <h1> <a href="{% url 'available_doctors' %}"><button>View Available Doctors</button></a> </h1> -->
+    {% include 'available_doctors.html' %} {% else %}
+
+    <h1>hello {{user.username}} !!</h1>
+
+    {% endif %}
+  </body>
+</html>

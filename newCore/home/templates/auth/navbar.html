@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>navbar</title>
+
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        user-select: none;
+      }
+
+      .nav {
+        display: flex;
+        flex-direction: row;
+        /* background-color: rgba(222,254,225,210); */
+        justify-content: space-between;
+        align-items: center;
+        height: 9vh;
+        margin-top: 1%;
+      }
+
+      .panels {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10%;
+        width: 25%;
+        height: 100%;
+        margin-right: 5%;
+      }
+
+      .nav > .logo {
+        margin-left: 5%;
+        /* background-color: brown; */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: 2000;
+      }
+
+      .nav > .logo p {
+        font-weight: 900;
+      }
+
+      a {
+        text-decoration: none;
+        font-size: 1.5vw;
+      }
+
+      .panels > a {
+        margin: none;
+        border-bottom: 2px solid transparent;
+        transition: o.2s ease-in-out;
+        font-weight: 550;
+        color: black;
+      }
+
+      .panels > a:hover {
+        border-bottom: 2px solid;
+        transition: o.2s ease-in-out;
+      }
+
+      .primary-btn {
+        width: 30%;
+        height: 50%;
+        border-radius: 7%;
+        border: 1px solid black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .primary-btn:hover {
+        background-color: black;
+        color: whitesmoke;
+      }
+
+      .primary-btn > a:hover {
+        color: white;
+      }
+
+      .primary-btn > a {
+        color: black;
+        font-weight: 550;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .dash {
+        width: 35%;
+        height: 50%;
+      }
+
+      img {
+        width: 7vw;
+        height: 12vh;
+        position: relative;
+        left: 45%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <navbar class="nav">
+      <div class="logo">
+        <p>
+          <a href="/"> <img src="/static/logos/logoRemovedBg.png" alt="" /> </a>
+        </p>
+      </div>
+
+      {% if user.is_authenticated %}
+
+      <div class="panels">
+        {% if user.role == 'doctor' %} {% if user.doctor.is_approved %}
+
+        <div class="primary-btn dash">
+          <a href="{% url 'view_appointments_doctor' %}">Dashboard</a>
+        </div>
+
+        {% endif %} {% elif user.role == 'patient' %}
+
+        <div class="primary-btn dash">
+          <a href="{% url 'available_doctors' %}">Dashboard</a>
+        </div>
+
+        {% endif %}
+
+        <a href="{% url 'button2' %}">Logout</a>
+      </div>
+
+      {% else %}
+
+      <div class="panels">
+        <a href="{% url 'button1' %}">Login</a>
+
+        <div class="primary-btn">
+          <a href="{% url 'signup' %}">sign up</a>
+        </div>
+      </div>
+
+      {% endif %}
+    </navbar>
+
+    {% block content %}
+    <!-- Content from child templates will appear here -->
+    {% endblock %}
+  </body>
+</html>

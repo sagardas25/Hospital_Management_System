@@ -1,0 +1,88 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# dotenv environment variables
+.env
+.env.*
+
+# Django-specific
+*.log
+local_settings.py
+db.sqlite3
+media/
+
+# Static files (from collectstatic)
+staticfiles/
+static/
+
+# VSCode / PyCharm / IDEs
+.vscode/
+.idea/
+
+# MyPy / Pyright / Pyre type checkers
+.mypy_cache/
+.pytype/
+.pyright/
+
+# PostgreSQL-related
+*.pgsql
+*.sql
+*.dump
+
+# Docker and PID files
+*.pid
+docker-compose.override.yml

@@ -18,10 +18,12 @@ from django.http import Http404
 
 
 
+
+
 #home page
 @never_cache
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'auth/home.html')
 
 
 #login view
@@ -46,7 +48,7 @@ def login_user(request):
         else:
             messages.error(request, "Invalid information. Please try again")
 
-    return render(request, 'login.html', {})
+    return render(request, 'auth/login.html', {})
 
 
 
@@ -87,7 +89,7 @@ def signup(request):
                 return redirect('signup')
     else:
         form = CustomUserCreationForm()
-    return render(request, 'signup.html', {'form': form}) 
+    return render(request, 'auth/signup.html', {'form': form}) 
 
 
 
@@ -107,13 +109,13 @@ def dashboard(request):
     if user.role == 'doctor':
 
         if user.doctor.is_approved:   
-            return render(request,'dashboard.html' , {'user' : user})
+            return render(request,'auth/65dashboard.html' , {'user' : user})
         else:
             raise Http404("You don't have enough permissions !!")
         
     else :
     
-         return render(request,'dashboard.html' , {'user' : user})
+         return render(request,'auth/dashboard.html' , {'user' : user})
 
 
 
@@ -141,8 +143,7 @@ def available_doctors(request):
 
     doctor_slots = {doctor: TimeSlot.objects.filter(doctor=doctor).order_by('date', 'start_time') for doctor in doctors}
 
-    return render(request, 'available_doctors.html', {'doctor_slots': doctor_slots, 'selected_department': department})
-
+    return render(request, 'patient/available_doctors.html', {'doctor_slots': doctor_slots, 'selected_department': department})
 
 
 
@@ -165,7 +166,7 @@ def update_profile_patient(request):
         if patient_profile_form.is_valid():
             patient_profile_form.save()
             # messages.success(request, 'Profile updated successfully.')
-            return redirect('update_profile_patient') 
+            return redirect('patient/update_profile_patient') 
 
 
     else:
@@ -173,7 +174,7 @@ def update_profile_patient(request):
         patient_profile_form = PatientProfileForm(instance=patient)
 
 
-    return render(request, 'update_profile_patient.html', {'patient_profile_form': patient_profile_form,})
+    return render(request, 'patient/update_profile_patient.html', {'patient_profile_form': patient_profile_form,})
 
 
 @never_cache
@@ -208,11 +209,7 @@ def add_profile_patient(request):
         patient_profile_form = PatientProfileForm(instance=patient)
 
 
-    return render(request, 'update_profile_patient.html', {'patient_profile_form': patient_profile_form,})
-
-
-
-
+    return render(request, 'patient/update_profile_patient.html', {'patient_profile_form': patient_profile_form,})
 
 
 @never_cache
@@ -248,16 +245,14 @@ def book_appointment(request, doctor_id):
 
         return redirect('confirm_booking', doctor_id=doctor.id, timeslot_id=timeslot.id)
 
-    return render(request, 'book_appointment.html', {'doctor': doctor, 'slots': slots})
-
-
+    return render(request, 'patient/book_appointment.html', {'doctor': doctor, 'slots': slots})
 
 
 @never_cache
 @login_required
 def confirm_booking(request, doctor_id, timeslot_id):
     timeslot = get_object_or_404(TimeSlot, id=timeslot_id)
-    return render(request, 'booking_confirmation.html', {'timeslot': timeslot})
+    return render(request, 'patient/booking_confirmation.html', {'timeslot': timeslot})
 
 
 @never_cache
@@ -276,7 +271,7 @@ def view_appointments_patient(request):
     else:
         appointments = Appointment.objects.filter(patient=patient)
     
-    return render(request, 'view_appointments_patient.html', {'appointments': appointments, 'status_filter': status_filter})
+    return render(request, 'patient/view_appointments_patient.html', {'appointments': appointments, 'status_filter': status_filter})
 
 
 
@@ -285,7 +280,7 @@ def view_appointments_patient(request):
 def active_appointments_patient(request):
     patient = request.user.patient
     appointments = Appointment.objects.filter(patient=patient, status='accepted')
-    return render(request, 'active_appointments_patient.html', {'appointments': appointments})
+    return render(request, 'patient/active_appointments_patient.html', {'appointments': appointments})
 
 
 @never_cache
@@ -298,13 +293,12 @@ def appointment_details_patient(request, appointment_id):
         appointment.feedback = feedback
         appointment.save()
 
-    return render(request, 'appointment_details_patient.html', {'appointment': appointment})
+    return render(request, 'patient/appointment_details_patient.html', {'appointment': appointment})
 
 
 #################################################################################################################################
 
 # doctor related views
-
 
 @login_required
 @never_cache 
@@ -353,7 +347,7 @@ def add_availability(request):
         slots_by_date[slot.date].append(slot)
 
 
-    return render(request, 'add_availability.html', {
+    return render(request, 'doctor/add_availability.html', {
         'form': form,
         'time_slots': time_slots,
 
@@ -414,7 +408,7 @@ def add_profile(request):
         profile_form = DoctorProfileForm(instance=doctor)
 
 
-    return render(request, 'update_profile.html', {'profile_form': profile_form,})
+    return render(request, 'doctor/update_profile.html', {'profile_form': profile_form,})
 
 
 
@@ -445,9 +439,7 @@ def update_profile(request):
         profile_form = DoctorProfileForm(instance=doctor)
 
 
-    return render(request, 'update_profile.html', {'profile_form': profile_form,})
-
-
+    return render(request, 'doctor/update_profile.html', {'profile_form': profile_form,})
 
 
 
@@ -470,7 +462,7 @@ def view_appointments_doctor(request):
         return redirect('view_appointments_doctor')
     
     pending_appointments = Appointment.objects.filter(status='pending', doctor=request.user.doctor)
-    return render(request, 'view_appointments_doctor.html', {'appointments': pending_appointments})
+    return render(request, 'doctor/view_appointments_doctor.html', {'appointments': pending_appointments})
 
 
 @never_cache
@@ -478,7 +470,7 @@ def view_appointments_doctor(request):
 def active_appointments(request):
     doctor = request.user.doctor 
     appointments = Appointment.objects.filter(doctor=doctor, status='accepted').order_by('date', 'time_slot__start_time')
-    return render(request, 'active_appointments.html', {'appointments': appointments})
+    return render(request, 'doctor/active_appointments.html', {'appointments': appointments})
 
 
 @never_cache
@@ -496,13 +488,13 @@ def appointment_details(request, appointment_id):
 
         return redirect('active_appointments')
     
-    return render(request, 'appointment_details.html', {'appointment': appointment})
+    return render(request, 'doctor/appointment_details.html', {'appointment': appointment})
 
 @never_cache
 @login_required
 def ongoing_treatment(request, appointment_id):
     appointment = get_object_or_404(Appointment, id=appointment_id)
-    return render(request, 'ongoing_treatment.html', {'appointment': appointment})
+    return render(request, 'doctor/ongoing_treatment.html', {'appointment': appointment})
 
 
 
@@ -513,7 +505,7 @@ def current_patients(request):
     accepted_appointments = Appointment.objects.filter(doctor=doctor, status='accepted')
     patients = {appointment.patient for appointment in accepted_appointments}
     
-    return render(request, 'current_patients.html', {'patients': patients})
+    return render(request, 'doctor/current_patients.html', {'patients': patients})
 
 @never_cache
 @login_required
@@ -522,13 +514,13 @@ def patient_details(request, patient_id):
     patient = get_object_or_404(Patient, id=patient_id)
     appointments = Appointment.objects.filter(doctor=doctor, patient=patient, status='accepted')
     
-    return render(request, 'patient_details.html', {'patient': patient, 'appointments': appointments})
+    return render(request, 'doctor/patient_details.html', {'patient': patient, 'appointments': appointments})
 
 
 
 def view_doctor_profile(request, pk):
     doctor = get_object_or_404(Doctor, pk=pk)
-    return render(request, 'doctor_profile.html', {'doctor': doctor})
+    return render(request, 'doctor/doctor_profile.html', {'doctor': doctor})
 
 
 #################################################################################################################
@@ -537,7 +529,9 @@ def view_doctor_profile(request, pk):
 
 from django.shortcuts import render
 from .models import Appointment
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 
@@ -547,15 +541,14 @@ import time
 from agora_token_builder import RtcTokenBuilder
 
 def generate_agora_token(channel_name, uid):
-    app_id = 'dad06a884da44221b2ee9b1c534ffb94'
-    app_certificate = '8ab623e51f2049989d9c27a0ae287378'
+    appId =os.getenv('APP_ID')
+    appCtf = os.getenv('APP_CERTIFICATE')
     expiration_time_in_seconds = 3600
     current_timestamp = int(time.time())
     privilege_expired_ts = current_timestamp + expiration_time_in_seconds
     role = 1  # RtcTokenBuilder.Role_Publisher
-    token = RtcTokenBuilder.buildTokenWithUid(app_id, app_certificate, channel_name, uid, role, privilege_expired_ts)
+    token = RtcTokenBuilder.buildTokenWithUid(appId,appCtf,channel_name, uid, role, privilege_expired_ts)
     return token
-
 
 @login_required
 def video_chat(request, appointment_id ):
@@ -574,7 +567,7 @@ def video_chat(request, appointment_id ):
             'remote_user_fullname' : appointment.doctor.full_name if user.role == 'patient' else appointment.patient.full_name
             
             }
-        return render(request, 'video_chat.html', context = context)
+        return render(request, 'videoChat/video_chat.html', context = context)
 
     else :
         return HttpResponseRedirect('sec_home') 
