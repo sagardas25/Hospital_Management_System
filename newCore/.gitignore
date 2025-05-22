@@ -83,6 +83,19 @@ static/
 *.sql
 *.dump
 
+# SQLite database
+*.sqlite3
+ datadump.json
+
+
 # Docker and PID files
 *.pid
 docker-compose.override.yml
+
+#media 
+media/cvs/
+media/prescriptions
+media/profile_pics/doctors
+media/profile_pics/patients
+
+
