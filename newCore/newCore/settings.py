@@ -42,8 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-  
+    'tailwind',
+    'theme',  
+
+    'django_browser_reload',
 ]
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = ['127.0.0.1']
+NPM_BIN_PATH='/home/sagar25/.nvm/versions/node/v20.18.0/bin/npm'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,6 +62,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'home.middlewares.NoCacheMiddleware'
+
+
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'newCore.urls'
@@ -171,11 +182,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'home.CustomUser'
 
 
-
-
-AGORA_APP_ID = 'dad06a884da44221b2ee9b1c534ffb94'; 
+import os
+from dotenv import load_dotenv
+load_dotenv() 
 
 # settings.py
-
-AGORA_APP_ID = 'dad06a884da44221b2ee9b1c534ffb94'
-AGORA_APP_CERTIFICATE = '8ab623e51f2049989d9c27a0ae287378'
+AGORA_APP_ID =os.getenv('APP_ID')
+AGORA_APP_CERTIFICATE = os.getenv('APP_CERTIFICATE')

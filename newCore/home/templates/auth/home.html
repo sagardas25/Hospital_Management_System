@@ -1,217 +1,71 @@
-<!DOCTYPE html>
+
+{% extends "base.html" %}
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+{% block title %}home{% endblock%} 
 
-    <style>
+{% block home %}
 
-        body {
-
-        margin: 0px;
-        padding: 0px;
-        user-select: none;
-    }
-
-        .bar{
-            height: auto;
-        }
-
-        .main{
-
-            /* background-color: aqua; */
-            /* border: 1px solid black; */
-            position: relative;
-           
-        }
-
-
-        .image{
-
-            background-image: url('/static/homeBg.png');
-            height: 88.5vh;
-            position: relative;
-            /* background-position: 90% 150%; */
-            background-position: 90% 90%;
-            background-size: 40% 80%; 
-            /* background-size: 50% 96%;  */
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-    
-            
-        }
-
-        .txt_container{
-/* 
-            background-color: beige; */
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-
-
-        }
-
-        .text{
-
-            width: auto;
-            height: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: start;
-            /* font-size: 38px; */
-            position: absolute;
-            top: 10%;
-            left: 10%;
-           
-
-        }
-
-        .text > h1{
-            font-size: 4vw; 
-            margin-bottom: 1.5%;
-
-        }
-
-        .text p {
-            font-size: 2vw;
-            font-weight: 600;
-        }
-
-
-        .login_btn{
-
-            width: 12%;
-            height: 12%;
-            border-radius: 9%;
-            border: 1px solid #248d40;
-            display: flex;
-            /* background-color: #248d40; */
-            background-color: #419b5b;
-            justify-content: center;
-            align-items: center;
-            margin-top: 3%;
-
-        }
-
-
-        .login_btn > a{
-
-            color: white;
-            font-weight: 550;
-            height: 100%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: larger;
-
-        }
-
-        span{
-
-            /* color: #419b5b; */
-            color: #248d40;
-        }
-
-        #not_approved_text{
-            color: red;
-        }
-
-
-
-
-    </style>
-
-
-
-
-
-
-</head>
-<body>
-
-   <div class="bar">
-    {% include "navbar.html" %}
-    </div> 
-
+    {% include 'auth/navbar.html' %}
 
     {% if user.is_authenticated %}
 
-    <section class="main">
-
-        <div class="image">
-
-            <div class="txt_container">
-               <div class="text">
-
-               <h1><span>Welcome</span> Mr. {{user.username}} </h1>
-
-                {% if user.role == 'doctor' and not user.doctor.is_approved %}
-
-                    <p id="not_approved_text">Your account is pending approval by an administrator</p>
-
-                {% else %}
-                
-                    <p>You are logged in !</p>
-                             
-
-                {% endif %}
-
-
-               </div>
-
-
-            </div>
-       </div>
-
-
-
-
-
+    <!-- Authenticated User View -->
+    <section class="relative">
+        <div
+          class="h-[88.5vh] bg-no-repeat bg-fixed bg-[length:40%_80%] bg-[position:90%_90%]"
+          style="background-image: url('/static/homeBg.png')"
+        >
+          <div class="h-[80vh] flex flex-col justify-center items-center relative">
+            <div class="absolute top-[10%] left-[10%] flex flex-col justify-center items-start h-1/2">
+              <h1 class="text-[4vw] mb-[1.5%] font-bold">
+                <span class="text-[#248d40]">Welcome</span> Mr. {{ user.username }}
+              </h1>
   
-    </section>
-
-    {% else %}
-
-        <section class="main">
-
-
-
-
-            <div class="image">
-
-                 <div class="txt_container">
-                    <div class="text">
-
-                    <h1><span>Hospital</span> Management System</h1>
-                    <p>Your Health, Our Priority</p>
-                    <p>Durgapur</p>
-                    
-                    <div class="login_btn">
-                        <a href="{% url 'button1' %}">Login</a>
-                    </div>
-
-                    </div>
-
-
-
-                 </div>
+              {% if user.role == 'doctor' and not user.doctor.is_approved %}
+                <p class="text-[2vw] font-semibold text-red-600">
+                  Your account is pending approval by an administrator
+                </p>
+              {% else %}
+                <p class="text-[2vw] font-semibold">You are logged in !</p>
+              {% endif %}
             </div>
-
-
-
-
-        
-        </section>
-
+          </div>
+        </div>
+      </section>
+  
+      {% else %}
+  
+      <!-- Guest User View -->
+      <section class="relative">
+        <div
+          class="h-[88.5vh] bg-no-repeat bg-fixed bg-[length:40%_80%] bg-[position:90%_90%]"
+          style="background-image: url('/static/homeBg.png')"
+        >
+          <div class="h-[80vh] flex flex-col justify-center items-center relative">
+            <div class="absolute top-[10%] left-[10%] flex flex-col justify-center items-start h-1/2">
+              <h1 class="text-[4vw] mb-[1.5%] font-bold">
+                <span class="text-[#248d40]">Hospital</span> Management System
+              </h1>
+              <p class="text-[2vw] font-semibold">Your Health, Our Priority</p>
+              <p class="text-[2vw] font-semibold">Durgapur</p>
+  
+              <div
+                class="w-[12%] h-[12%] rounded-[9%] border border-[#248d40] bg-[#419b5b] mt-[3%] flex justify-center items-center hover:opacity-90 transition duration-200"
+              >
+                <a
+                  href="{% url 'button1' %}"
+                  class="text-white font-semibold text-lg w-full h-full flex justify-center items-center"
+                >
+                  Login
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+  
     {% endif %}
 
 
-</body>
-</html>
+{% endblock %}
+
