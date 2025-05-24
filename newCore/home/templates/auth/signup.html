@@ -1,244 +1,105 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static %} 
+{% load static tailwind_tags %} 
+{% load widget_tweaks %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>signup</title>
-
-    <style>
-      body {
-        user-select: none;
-      }
-
-      .main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 99vw;
-        height: 97.5vh;
-        gap: 4%;
-      }
-
-      .primary_box {
-        /* background-color: aqua; */
-        height: 88vh;
-        width: 55vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .secondary_box {
-        height: 88vh;
-        width: 35vw;
-        background-color: rgba(222, 247, 229, 1);
-        background-image: url("/static/hospBuild1.png");
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-        border: 2px solid grey;
-        border-radius: 3%;
-
-        display: flex;
-        flex-direction: column;
-      }
-
-      .container {
-        /* background-color: yellow; */
-        height: 100%;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-      }
-
-      form {
-        /* background-color: blueviolet; */
-        width: 25vw;
-        padding-bottom: 1%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .forms {
-        width: 24vw;
-        margin-top: 5%;
-        height: 9vh;
-      }
-
-      #id_username,
-      #id_email,
-      #id_password1,
-      #id_password2,
-      #id_role {
-        outline: none;
-        width: 98%;
-        padding: 1%;
-        height: 30%;
-        border: none;
-        font-size: 15px;
-        background: transparent;
-      }
-
-      #id_role {
-        padding: 0%;
-        height: 45%;
-        width: 97%;
-        background: transparent;
-      }
-
-      .btn-primary {
-        margin-top: 5%;
-      }
-
-      .input {
-        padding: 1.5%;
-        background-color: whitesmoke;
-        margin-top: 1%;
-        border-radius: 6px;
-        border: 1px solid black;
-      }
-
-      li {
-        list-style-type: none;
-        color: red;
-        font-size: 14px;
-        position: relative;
-        right: 38px;
-      }
-
-      .errorlist {
-        margin-top: 1px;
-        margin-bottom: 10px;
-        display: block;
-      }
-
-      label {
-        font-size: larger;
-        font-weight: 500;
-      }
-
-      #btn_sign {
-        width: 98%;
-        height: 8%;
-        border-radius: 6px;
-        border: 0.5px solid black;
-        /* background-color:#248d40 ; */
-        background-color: #419b5b;
-        color: aliceblue;
-        font-size: 2.5vh;
-        font-weight: 600;
-      }
-
-      .txt {
-        margin-top: 3%;
-        font-size: 120%;
-        font-weight: 550;
-        padding: 0%;
-      }
-
-      .txt a {
-        text-decoration: none;
-        color: #248d40;
-      }
-
-      img {
-        width: 7vw;
-        height: 10vh;
-      }
-
-      .header_text {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    </style>
+    {% tailwind_css %}
   </head>
 
-  <body>
-    <div class="main">
-      <div class="primary_box">
-        <div class="container">
-          <div class="header_text">
-            <img src="/static/logos/logoRemovedBg.png" alt="" />
-            <h1>Sign in</h1>
-          </div>
-
-          <!-- <div class="form"> -->
-
-          <form action="{% url 'signup' %}" method="POST">
-            {% csrf_token %} {{ form.non_field_errors }}
-
-            <!-- <div class="input_container"> -->
-
-            <div class="forms">
-              {{ form.username.label_tag }} <br />
-
-              <div class="input">{{ form.username }}</div>
-
-              {{ form.username.errors }}
+  <body class="select-none">
+    <div class="flex justify-center items-center w-[99vw] h-[97.5vh] gap-4">
+      <div class="flex justify-center items-center h-[88vh] w-[55vw]">
+        <div class="h-[88vh] w-[55vw] flex justify-center items-center">
+          <div class="flex flex-col items-center w-full h-full">
+      
+            <!-- Header -->
+            <div class="flex items-center justify-center gap-3 mb-4">
+              <img src="{% static 'logos/logoRemovedBg.png' %}" alt="Logo" class="w-[7vw] h-[10vh]" />
+              <h1 class="text-2xl font-semibold">Sign in</h1>
             </div>
-
-            <div class="forms">
-              {{ form.email.label_tag }}<br />
-
-              <div class="input">{{ form.email }}</div>
-
-              {{ form.email.errors }}
-            </div>
-
-            <div class="forms">
-              {{ form.password1.label_tag }} <br />
-
-              <div class="input">{{ form.password1 }}</div>
-
-              {{ form.password1.errors }}
-            </div>
-
-            <div class="forms">
-              {{ form.password2.label_tag }} <br />
-
-              <div class="input">{{ form.password2 }}</div>
-
-              {{ form.password2.errors }}
-            </div>
-
-            <div class="forms">
-              {{ form.role.label_tag }}<br />
-
-              <div class="input">
-                <select name="role" id="id_role">
-                  {% for value, label in form.role.field.choices %}
-                  <option value="{{ value }}">{{ label }}</option>
-                  {% endfor %}
-                </select>
+      
+            <!-- Form -->
+            <form method="POST" action="{% url 'signup' %}" class="w-[25vw] flex flex-col items-center space-y-4">
+              {% csrf_token %}
+              {{ form.non_field_errors }}
+      
+              <!-- Username -->
+              <div class="w-full">
+                <label for="{{ form.username.id_for_label }}" class="text-lg font-medium">{{ form.username.label }}</label>
+                <div class="bg-gray-100 border border-black rounded-md px-2 py-2 mt-1">
+                  {{ form.username|add_class:"w-full bg-transparent outline-none text-base" }}
+                </div>
+                {% for error in form.username.errors %}
+                  <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
               </div>
-
-              {{ form.role.errors }}
-            </div>
-
-            <!-- </div> -->
-
-            <button type="submit" id="btn_sign" class="btn btn-primary">
-              Register
-            </button>
-          </form>
-
-          <div class="txt">
-            <div class="log_redirect">
-              Already have an account ?<a href="{% url 'button1' %}">Log in</a>
+      
+              <!-- Email -->
+              <div class="w-full">
+                <label for="{{ form.email.id_for_label }}" class="text-lg font-medium">{{ form.email.label }}</label>
+                <div class="bg-gray-100 border border-black rounded-md px-2 py-2 mt-1">
+                  {{ form.email|add_class:"w-full bg-transparent outline-none text-base" }}
+                </div>
+                {% for error in form.email.errors %}
+                  <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+              </div>
+      
+              <!-- Password1 -->
+              <div class="w-full">
+                <label for="{{ form.password1.id_for_label }}" class="text-lg font-medium">{{ form.password1.label }}</label>
+                <div class="bg-gray-100 border border-black rounded-md px-2 py-2 mt-1">
+                  {{ form.password1|add_class:"w-full bg-transparent outline-none text-base" }}
+                </div>
+                {% for error in form.password1.errors %}
+                  <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+              </div>
+      
+              <!-- Password2 -->
+              <div class="w-full">
+                <label for="{{ form.password2.id_for_label }}" class="text-lg font-medium">{{ form.password2.label }}</label>
+                <div class="bg-gray-100 border border-black rounded-md px-2 py-2 mt-1">
+                  {{ form.password2|add_class:"w-full bg-transparent outline-none text-base" }}
+                </div>
+                {% for error in form.password2.errors %}
+                  <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+              </div>
+      
+              <!-- Role -->
+              <div class="w-full">
+                <label for="{{ form.role.id_for_label }}" class="text-lg font-medium">{{ form.role.label }}</label>
+                <div class="bg-gray-100 border border-black rounded-md px-2 py-2 mt-1">
+                  {{ form.role|add_class:"w-full bg-transparent outline-none text-base" }}
+                </div>
+                {% for error in form.role.errors %}
+                  <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+                {% endfor %}
+              </div>
+      
+              <!-- Submit button -->
+              <button type="submit" class="w-full py-2 mt-4 rounded-md border border-black bg-green-600 text-white text-lg font-semibold hover:bg-green-700 transition">
+                Register
+              </button>
+            </form>
+      
+            <!-- Login Redirect -->
+            <div class="mt-5 text-base font-medium">
+              Already have an account?
+              <a href="{% url 'button1' %}" class="text-green-600 hover:underline">Log in</a>
             </div>
           </div>
-
-          <!-- </div> -->
         </div>
       </div>
 
-      <div class="secondary_box"></div>
+      <div
+        class="h-[88vh] w-[35vw] bg-[rgba(222,247,229,1)] bg-[url('/static/hospBuild1.png')] bg-contain bg-center bg-no-repeat border border-gray-500 rounded-[3%] flex flex-col"
+      ></div>
     </div>
   </body>
-</html>
+</html> 
